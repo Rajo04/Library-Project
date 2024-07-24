@@ -25,7 +25,7 @@ public class BookTest {
         String invalidTitle = " ";
         assertThrows(DomainException.class,
         () -> new Book(invalidTitle, "Arthur", "9783161484100", 2010),
-        "Name is required.");
+        "Title is required.");
     }
 
     @Test
@@ -33,7 +33,7 @@ public class BookTest {
         String emptyTitle = null;
         assertThrows(DomainException.class,
         () -> new Book(emptyTitle, "Arthur", "9783161484100", 2010),
-        "Name is required.");
+        "Title is required.");
     }
 
     @Test
@@ -57,6 +57,14 @@ public class BookTest {
         String tooShortISBN = "456465544512";
         assertThrows(DomainException.class,
         () -> new Book("Vikings", "Arthur", tooShortISBN, 2010),
+        "ISBN is required to have 13 digits.");
+    }
+
+    @Test
+    public void givenTooLongISBN_whenCreatingBook_thenErrorThrown() {
+        String tooLongISBN = "45646554451255";
+        assertThrows(DomainException.class,
+        () -> new Book("Vikings", "Arthur", tooLongISBN, 2010),
         "ISBN is required to have 13 digits.");
     }
 

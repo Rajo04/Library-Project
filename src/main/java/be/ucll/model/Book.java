@@ -22,7 +22,7 @@ public class Book {
 
     public void setTitle(String title) {
         if(title == " " | title == null) {
-            throw new DomainException("Name is required.");
+            throw new DomainException("Title is required.");
         }
         this.title = title;
     }
