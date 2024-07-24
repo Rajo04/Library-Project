@@ -39,7 +39,9 @@ public abstract class Publication {
     }
 
     public void setAvailableCopies(int availableCopies) {
+        if(availableCopies < 0) {
+            throw new DomainException("Available copies cannot be negative.");
+        }
         this.availableCopies = availableCopies;
     }
-
 }

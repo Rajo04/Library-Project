@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
-import be.ucll.model.Book;
 import be.ucll.model.DomainException;
 import be.ucll.model.Magazine;
 
@@ -97,7 +96,15 @@ public class MagazineTest {
     public void givenFuturePublicationYear_whenCreatingMagazine_thenErrorThrown() {
         int futurePublicationYear = 2048;
         assertThrows(DomainException.class,
-        () -> new Book("Flair", "Jan", "03785955", futurePublicationYear, 10),
+        () -> new Magazine("Flair", "Jan", "03785955", futurePublicationYear, 10),
         "Publication year cannot be in the future.");
+    }
+
+    @Test
+    public void givenNegativeAvailableCopies_whenCreatingMagazine_thenErrorIsThrown() {
+        int negativeAvailableCopies = -3;
+        assertThrows(DomainException.class,
+        () -> new Magazine("Flair", "Jan", "03785955", 2011, negativeAvailableCopies),
+        "Available copies cannot be negative.");
     }
 }
