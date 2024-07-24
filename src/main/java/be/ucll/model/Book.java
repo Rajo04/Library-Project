@@ -1,31 +1,17 @@
 package be.ucll.model;
 
-import java.time.LocalDate;
 
 
-public class Book {
-    private String title;
+public class Book extends Publication {
     private String author;
     private String ISBN;
-    private int publicationYear;
 
-    public Book(String title, String author, String ISBN, int publicationYear){
-        setTitle(title);
+    public Book(String title, String author, String ISBN, int publicationYear, int availableCopies){
+        super(title, publicationYear, availableCopies);
         setAuthor(author);
         setISBN(ISBN);
-        setPublicationYear(publicationYear);
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        if(title == " " | title == null) {
-            throw new DomainException("Title is required.");
-        }
-        this.title = title;
-    }
 
     public String getAuthor() {
         return author;
@@ -49,18 +35,5 @@ public class Book {
             throw new DomainException("ISBN is required to have 13 digits.");
         }
         this.ISBN = ISBN;
-    }
-
-    public int getPublicationYear() {
-        return publicationYear;
-    }
-
-    public void setPublicationYear(int publicationYear) {
-        if(publicationYear < 0){
-            throw new DomainException("Publication year must be a positive integer.");
-        } else if(publicationYear > LocalDate.now().getYear()) {
-            throw new DomainException("Publication year cannot be in the future.");
-        }
-        this.publicationYear = publicationYear;
     }
 }

@@ -13,7 +13,7 @@ public class MagazineTest {
 
     @Test
     public void givenValidValues_whenCreatingMagazine_thenMagazineIsCreated() {
-        Magazine magazine = new Magazine("Flair", "Jan", "03785955", 2011);
+        Magazine magazine = new Magazine("Flair", "Jan", "03785955", 2011, 10);
 
         assertEquals("Flair", magazine.getTitle());
         assertEquals("Jan", magazine.getEditor());
@@ -25,7 +25,7 @@ public class MagazineTest {
     public void givenInvalidTitle_whenCreatingMagazine_thenErrorThrown() {
         String invalidTitle = " ";
         assertThrows(DomainException.class,
-        () -> new Magazine(invalidTitle, "Jan", "03785955", 2011),
+        () -> new Magazine(invalidTitle, "Jan", "03785955", 2011, 10),
         "Title is required.");
     }
 
@@ -33,7 +33,7 @@ public class MagazineTest {
     public void givenEmptyTitle_whenCreatingMagazine_thenErrorThrown() {
         String emptyTitle = null;
         assertThrows(DomainException.class,
-        () -> new Magazine(emptyTitle, "Jan", "03785955", 2011),
+        () -> new Magazine(emptyTitle, "Jan", "03785955", 2011, 10),
         "Title is required.");
     }
 
@@ -41,7 +41,7 @@ public class MagazineTest {
     public void givenInvalidEditor_whenCreatingMagazine_thenErrorThrown() {
         String invalidEditor = " ";
         assertThrows(DomainException.class,
-        () -> new Magazine("Flair", invalidEditor, "03785955", 2011),
+        () -> new Magazine("Flair", invalidEditor, "03785955", 2011, 10),
         "Editor is required.");
     }
 
@@ -49,7 +49,7 @@ public class MagazineTest {
     public void givenEmptyEditor_whenCreatingMagazine_thenErrorThrown() {
         String emptyEditor = null;
         assertThrows(DomainException.class,
-        () -> new Magazine("Flair", emptyEditor, "03785955", 2011),
+        () -> new Magazine("Flair", emptyEditor, "03785955", 2011, 10),
         "Editor is required.");
     }
 
@@ -57,7 +57,7 @@ public class MagazineTest {
     public void givenInvalidISSN_whenCreatingMagazine_thenErrorThrown() {
         String invalidISSN = " ";
         assertThrows(DomainException.class,
-        () -> new Magazine("Flair", "Jan", invalidISSN, 2011),
+        () -> new Magazine("Flair", "Jan", invalidISSN, 2011, 10),
         "ISSN is required.");
     }
     
@@ -65,7 +65,7 @@ public class MagazineTest {
     public void givenEmptyISSN_whenCreatingMagazine_thenErrorThrown() {
         String emptyISSN = null;
         assertThrows(DomainException.class,
-        () -> new Magazine("Flair", "Jan", emptyISSN, 2011),
+        () -> new Magazine("Flair", "Jan", emptyISSN, 2011, 10),
         "ISSN is required.");
     }
 
@@ -73,7 +73,7 @@ public class MagazineTest {
     public void givenTooShortISSN_whenCreatingMagazine_thenErrorThrown() {
         String tooShortISSN = "1234567";
         assertThrows(DomainException.class,
-        () -> new Magazine("Flair", "Jan", tooShortISSN, 2011),
+        () -> new Magazine("Flair", "Jan", tooShortISSN, 2011, 10),
         "ISSN must be exact 8 characters.");
     }
 
@@ -81,7 +81,7 @@ public class MagazineTest {
     public void givenTooLongISSN_whenCreatingMagazine_thenErrorThrown() {
         String tooLongISSN = "123456789";
         assertThrows(DomainException.class,
-        () -> new Magazine("Flair", "Jan", tooLongISSN, 2011),
+        () -> new Magazine("Flair", "Jan", tooLongISSN, 2011, 10),
         "ISSN must be exact 8 characters.");
     }
 
@@ -89,7 +89,7 @@ public class MagazineTest {
     public void givenNegativePublicationYear_whenCreatingMagazine_thenErrorThrown() {
         int negativePublicationYear = -2015;
         assertThrows(DomainException.class,
-        () -> new Magazine("Flair", "Jan", "03785955", negativePublicationYear),
+        () -> new Magazine("Flair", "Jan", "03785955", negativePublicationYear, 10),
         "Publication year must be a positive integer.");
     }
 
@@ -97,7 +97,7 @@ public class MagazineTest {
     public void givenFuturePublicationYear_whenCreatingMagazine_thenErrorThrown() {
         int futurePublicationYear = 2048;
         assertThrows(DomainException.class,
-        () -> new Book("Flair", "Jan", "03785955", futurePublicationYear),
+        () -> new Book("Flair", "Jan", "03785955", futurePublicationYear, 10),
         "Publication year cannot be in the future.");
     }
 }
