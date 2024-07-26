@@ -34,7 +34,7 @@ public interface Validation {
     }
 
     static void validateEmail(String email, String message) {
-        if(!email.contains("@") && !email.contains(".")) {
+        if(!email.contains("@") || !email.contains(".")) {
             throwDomainException(message);
         }
     }
