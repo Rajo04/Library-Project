@@ -1,10 +1,10 @@
 package be.ucll.model;
 
+import static be.ucll.util.Validation.throwDomainException;
 import static be.ucll.util.Validation.validateNegativeNumber;
 import static be.ucll.util.Validation.validateNonEmptyString;
 import static be.ucll.util.Validation.validatePublicationYear;
 
-import java.time.LocalDate;
 
 public abstract class Publication {
     private String title;
@@ -42,5 +42,21 @@ public abstract class Publication {
     public void setAvailableCopies(int availableCopies) {
         validateNegativeNumber(availableCopies, "Available copies cannot be negative.");
         this.availableCopies = availableCopies;
+    }
+
+    public void lendPublication() {
+        if(hasAvailableCopies()) {
+            setAvailableCopies(getAvailableCopies() - 1);
+        } else {
+            throwDomainException("No available copies left for publication.");
+        }
+    }
+
+    public void returnPublication() {
+        setAvailableCopies(getAvailableCopies() + 1);
+    }
+
+    public boolean hasAvailableCopies() {
+        return getAvailableCopies() > 0;
     }
 }
