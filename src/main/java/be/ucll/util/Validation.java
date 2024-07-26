@@ -10,7 +10,7 @@ public interface Validation {
     }
 
     static void validateNonEmptyString(String value, String message) {
-        if(value == null || value.trim().isEmpty()) {
+        if(value == null || value.isBlank()) {
             throwDomainException(message);
         }
     }
@@ -46,7 +46,7 @@ public interface Validation {
     }
 
     static void validateIsbn(String isbn, String message) {
-        if(isbn == null || isbn.trim().isEmpty()) {
+        if(isbn == null || isbn.isBlank()) {
             throwDomainException(message);
         } else if(isbn.length() != 13) {
             throwDomainException(message);
@@ -54,7 +54,7 @@ public interface Validation {
     }
 
     static void validateIssn(String issn, String message) {
-        if(issn == null || issn.trim().isEmpty()) {
+        if(issn == null || issn.isBlank()) {
             throwDomainException(message);
         } else if(issn.length() != 8) {
             throwDomainException(message);        }

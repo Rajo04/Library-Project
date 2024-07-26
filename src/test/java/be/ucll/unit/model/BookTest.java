@@ -3,6 +3,8 @@ package be.ucll.unit.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.time.LocalDate;
+
 import org.junit.jupiter.api.Test;
 
 import be.ucll.model.Book;
@@ -87,7 +89,7 @@ public class BookTest {
 
     @Test
     public void givenNegativePublicationYear_whenCreatingBook_thenErrorThrown() {
-        int negativePublicationYear = -2015;
+        int negativePublicationYear = -1;
         assertThrows(DomainException.class,
         () -> new Book("Vikings", "Arthur", "9783161484100", negativePublicationYear, 10),
         "Publication year must be a positive integer.");
@@ -95,7 +97,7 @@ public class BookTest {
 
     @Test
     public void givenFuturePublicationYear_whenCreatingBook_thenErrorThrown() {
-        int futurePublicationYear = 2048;
+        int futurePublicationYear = LocalDate.now().getYear() + 1;
         assertThrows(DomainException.class,
         () -> new Book("Vikings", "Arthur", "9783161484100", futurePublicationYear, 10),
         "Publication year cannot be in the future.");
@@ -103,7 +105,7 @@ public class BookTest {
 
     @Test
     public void givenNegativeAvailableCopies_whenCreatingBook_thenErrorIsThrown() {
-        int negativeAvailableCopies = -3;
+        int negativeAvailableCopies = -1;
         assertThrows(DomainException.class,
         () -> new Magazine("Flair", "Jan", "03785955", 2011, negativeAvailableCopies),
         "Available copies cannot be negative.");
