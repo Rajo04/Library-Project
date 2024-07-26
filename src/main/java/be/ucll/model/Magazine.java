@@ -1,34 +1,34 @@
 package be.ucll.model;
 
+import static be.ucll.util.Validation.validateIssn;
+import static be.ucll.util.Validation.validateNonEmptyString;
+
 public class Magazine extends Publication {
     private String editor;
-    private String ISSN;
+    private String issn;
     
-    public Magazine(String title, String editor, String ISSN, int PublicationYear, int availableCopies) {
+    public Magazine(String title, String editor, String issn, int PublicationYear, int availableCopies) {
         super(title, PublicationYear, availableCopies);
         setEditor(editor);
-        setISSN(ISSN);
+        setIssn(issn);
     }
 
 
     public String getEditor() {
         return editor;
     }
+    
     public void setEditor(String editor) {
-        if(editor == " " | editor == null) {
-            throw new DomainException("Editor is required.");
-        }
+        validateNonEmptyString(editor, "Editor is required.");
         this.editor = editor;
     }
-    public String getISSN() {
-        return ISSN;
+
+    public String getIssn() {
+        return issn;
     }
-    public void setISSN(String ISSN) {
-        if(ISSN == " " | ISSN == null) {
-            throw new DomainException("ISSN is required.");
-        } else if(ISSN.length() != 8) {
-            throw new DomainException("ISSN has to be exactly 8 characters long.");
-        }
-        this.ISSN = ISSN;
+
+    public void setIssn(String issn) {
+        validateIssn(issn, "issn has to be exactly 8 characters long and is required.");
+        this.issn = issn;
     }
 }

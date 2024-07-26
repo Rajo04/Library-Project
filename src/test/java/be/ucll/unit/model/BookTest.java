@@ -17,7 +17,7 @@ public class BookTest {
 
         assertEquals("Vikings", book.getTitle());
         assertEquals("Arthur", book.getAuthor());
-        assertEquals("9783161484100", book.getISBN());
+        assertEquals("9783161484100", book.getIsbn());
         assertEquals(2010, book.getPublicationYear());
     }
 

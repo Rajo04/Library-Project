@@ -16,7 +16,7 @@ public class MagazineTest {
 
         assertEquals("Flair", magazine.getTitle());
         assertEquals("Jan", magazine.getEditor());
-        assertEquals("03785955", magazine.getISSN());
+        assertEquals("03785955", magazine.getIssn());
         assertEquals(2011, magazine.getPublicationYear());
     }
 

@@ -1,15 +1,15 @@
 package be.ucll.model;
 
-
+import static be.ucll.util.Validation.*;
 
 public class Book extends Publication {
     private String author;
-    private String ISBN;
+    private String isbn;
 
-    public Book(String title, String author, String ISBN, int publicationYear, int availableCopies){
+    public Book(String title, String author, String isbn, int publicationYear, int availableCopies){
         super(title, publicationYear, availableCopies);
         setAuthor(author);
-        setISBN(ISBN);
+        setIsbn(isbn);
     }
 
 
@@ -18,22 +18,16 @@ public class Book extends Publication {
     }
 
     public void setAuthor(String author) {
-        if(author == " " | author == null) {
-            throw new DomainException("Author is required.");
-        }
+        validateNonEmptyString(author, "Author is required.");
         this.author = author;
     }
 
-    public String getISBN() {
-        return ISBN;
+    public String getIsbn() {
+        return isbn;
     }
 
-    public void setISBN(String ISBN) {
-        if(ISBN == " " | ISBN == null) {
-            throw new DomainException("ISBN is required.");
-        } else if(ISBN.length() != 13) {
-            throw new DomainException("ISBN is required to have 13 digits.");
-        }
-        this.ISBN = ISBN;
+    public void setIsbn(String isbn) {
+        validateIsbn(isbn, "ISBN is required to have 13 digits and cannot be empty.");
+        this.isbn = isbn;
     }
 }
