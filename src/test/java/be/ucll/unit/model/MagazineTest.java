@@ -36,7 +36,7 @@ public class MagazineTest {
         "Title is required.");
     }
 
-    @Test
+    @Test // TODO: Don't use "invalid", use "Blank" or "Empty" as name
     public void givenInvalidEditor_whenCreatingMagazine_thenErrorThrown() {
         String invalidEditor = " ";
         assertThrows(DomainException.class,
@@ -44,7 +44,7 @@ public class MagazineTest {
         "Editor is required.");
     }
 
-    @Test
+    @Test // TODO: Don't use "empty", use null
     public void givenEmptyEditor_whenCreatingMagazine_thenErrorThrown() {
         String emptyEditor = null;
         assertThrows(DomainException.class,
@@ -86,7 +86,7 @@ public class MagazineTest {
 
     @Test
     public void givenNegativePublicationYear_whenCreatingMagazine_thenErrorThrown() {
-        int negativePublicationYear = -2015;
+        int negativePublicationYear = -2015; // TODO: Use boundary values (i.e. -1)
         assertThrows(DomainException.class,
         () -> new Magazine("Flair", "Jan", "03785955", negativePublicationYear, 10),
         "Publication year must be a positive integer.");
@@ -94,7 +94,7 @@ public class MagazineTest {
 
     @Test
     public void givenFuturePublicationYear_whenCreatingMagazine_thenErrorThrown() {
-        int futurePublicationYear = 2048;
+        int futurePublicationYear = 2048; // TODO: Use boundary values (i.e. current year + 1)
         assertThrows(DomainException.class,
         () -> new Magazine("Flair", "Jan", "03785955", futurePublicationYear, 10),
         "Publication year cannot be in the future.");
@@ -102,7 +102,7 @@ public class MagazineTest {
 
     @Test
     public void givenNegativeAvailableCopies_whenCreatingMagazine_thenErrorIsThrown() {
-        int negativeAvailableCopies = -3;
+        int negativeAvailableCopies = -3; // TODO: Use boundary values (i.e. -1)
         assertThrows(DomainException.class,
         () -> new Magazine("Flair", "Jan", "03785955", 2011, negativeAvailableCopies),
         "Available copies cannot be negative.");
