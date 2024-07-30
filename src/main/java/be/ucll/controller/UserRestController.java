@@ -24,4 +24,9 @@ public class UserRestController {
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
+
+    @GetMapping("/adults")
+    public List<User> getAllAdults() {
+        return userService.getAllAdults();
+    }
 }

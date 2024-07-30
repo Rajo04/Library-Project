@@ -1,6 +1,7 @@
 package be.ucll.unit.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,5 +25,12 @@ public class UserServiceTest {
         assertEquals(actualUsers, userService.getAllUsers());
     }
 
-    
+    @Test
+    public void givenAllAdultUsers_whenAskingAllAdultUsers_thenAllAdultUsersAreGiven() {
+        List<User> foundUsers = userService.getAllAdults();
+
+        for (User user : foundUsers) {
+            assertTrue(user.getAge() >= 18);
+        }
+    }
 }

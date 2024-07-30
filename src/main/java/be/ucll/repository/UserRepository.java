@@ -23,4 +23,12 @@ public class UserRepository {
     public List<User> allUsers() {
         return users;
     }
+
+    public List<User> usersOlderThan() {
+        for (User user : users) {
+            if(user.getAge() >= 18);
+            usersOlderThan().add(user);
+        }
+        return usersOlderThan();
+    }
 }
