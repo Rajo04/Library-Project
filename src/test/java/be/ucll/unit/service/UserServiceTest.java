@@ -1,6 +1,7 @@
 package be.ucll.unit.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import be.ucll.model.ServiceException;
 import be.ucll.model.User;
 import be.ucll.service.UserService;
 import be.ucll.repository.UserRepository;
@@ -39,5 +41,29 @@ public class UserServiceTest {
         for (User user : foundUsers) {
             assertTrue(user.getAge() >= 18);
         }
+    }
+
+    @Test
+    public void givenAllUsersWithinAgeRange_whenAskingUsersWithingAgeRange_thenUsersWithinAgeRangeReturned() {
+        List<User> foundUsers = userService.getUsersByAgeRange(29, 57);
+
+        assertEquals(2, foundUsers.size());
+        assertEquals(foundUsers.get(0).getName(), "John Doe");
+        assertEquals(foundUsers.get(1).getName(), "Jane Toe");
+    }
+
+    @Test
+    public void givenInvalidAgeRange_whenAskingUsersWithAgeRange_thenErrorIsThrown() {
+        assertThrows(ServiceException.class,
+        () -> {
+            List<User> InvalidRange = userService.getUsersByAgeRange(30, 29);
+            }
+        );
+    
+        assertThrows(ServiceException.class,
+        () -> {
+            List<User> InvalidRange = userService.getUsersByAgeRange(1, 151);
+            }
+        );
     }
 }

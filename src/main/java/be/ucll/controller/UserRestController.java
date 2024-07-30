@@ -8,6 +8,7 @@ import be.ucll.service.UserService;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -28,5 +29,10 @@ public class UserRestController {
     @GetMapping("/adults")
     public List<User> getAllAdults() {
         return userService.getAllAdults();
+    }
+
+    @GetMapping("/age/{min}/{max}")
+    public List<User> getUserByAgeRange(@PathVariable("min") int min, @PathVariable("max") int max) {
+        return userService.getUsersByAgeRange(min, max);
     }
 }

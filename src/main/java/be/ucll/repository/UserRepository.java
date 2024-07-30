@@ -33,4 +33,14 @@ public class UserRepository {
         }
         return allAdultUsers;
     }
+
+    public List<User> findUsersByAgeRange(int min, int max) {
+        List<User> usersWithinAgeRange = new ArrayList<>();
+        for (User user : users) {
+            if(min <= user.getAge() && user.getAge() <= max) {
+                usersWithinAgeRange.add(user);
+            }
+        }
+        return usersWithinAgeRange;
+    }
 }
