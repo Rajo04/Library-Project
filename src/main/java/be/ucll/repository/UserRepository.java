@@ -43,4 +43,14 @@ public class UserRepository {
         }
         return usersWithinAgeRange;
     }
+
+    public List<User> usersByName(String name) {
+        List<User> filteredByName = new ArrayList<>();
+        for (User user : users) {
+            if(user.getName().toLowerCase().contains(name.toLowerCase())) {
+                filteredByName.add(user);
+            }
+        }
+        return filteredByName;
+    }
 }

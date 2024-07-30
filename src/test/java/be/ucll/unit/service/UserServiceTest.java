@@ -66,4 +66,23 @@ public class UserServiceTest {
             }
         );
     }
+
+    @Test
+    public void givenUsersFound_whenFilteringByName_thenUsersGiven() {
+        List<User> foundUsers = userService.getUsersByName("j");
+
+        assertEquals(3, foundUsers.size());
+        assertEquals(foundUsers.get(0).getName(), "John Doe");
+        assertEquals(foundUsers.get(1).getName(), "Jane Toe");
+        assertEquals(foundUsers.get(2).getName(), "Jack Doe");
+    }
+
+    @Test
+    public void givenNoUserFound_whenFilteringByName_thenErrorIsThrown() {
+        assertThrows(ServiceException.class,
+        () -> {
+            List<User> foundUsers = userService.getUsersByName("Rajo");
+            }
+        );
+    }
 }

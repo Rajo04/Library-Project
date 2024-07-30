@@ -10,6 +10,8 @@ import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -22,8 +24,11 @@ public class UserRestController {
     }
     
     @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public List<User> getAllUsers(@RequestParam(value = "name", required = false) String name) {
+        if(name == null) {
+            return userService.getAllUsers();
+        }
+        return userService.getUsersByName(name);
     }
 
     @GetMapping("/adults")

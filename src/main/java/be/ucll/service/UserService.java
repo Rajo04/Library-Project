@@ -33,4 +33,13 @@ public class UserService {
         }
         return userRepository.findUsersByAgeRange(min, max);
     }
+
+    public List<User> getUsersByName(String name) {
+        List<User> usersWithName = userRepository.usersByName(name);
+        
+        if(usersWithName.size() == 0) {
+            throw new ServiceException("No users with that name found.");
+        }
+        return usersWithName;
+    }
 }
