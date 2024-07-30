@@ -24,11 +24,13 @@ public class UserRepository {
         return users;
     }
 
-    public List<User> usersOlderThan() {
+    public List<User> usersOlderThan(int age) {
+        List<User> allAdultUsers = new ArrayList<>();
         for (User user : users) {
-            if(user.getAge() >= 18);
-            usersOlderThan().add(user);
+            if(user.getAge() >= age) {
+                allAdultUsers.add(user);
+            }
         }
-        return usersOlderThan();
+        return allAdultUsers;
     }
 }

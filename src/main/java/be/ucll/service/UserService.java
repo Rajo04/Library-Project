@@ -20,6 +20,6 @@ public class UserService {
     }
 
     public List<User> getAllAdults() {
-        return userRepository.usersOlderThan();
+        return userRepository.usersOlderThan(18);
     }
 }

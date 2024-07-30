@@ -6,13 +6,20 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import be.ucll.model.User;
 import be.ucll.service.UserService;
+import be.ucll.repository.UserRepository;
 
 public class UserServiceTest {
     private UserService userService;
+
+    @BeforeEach
+    void init() {
+        this.userService = new UserService(new UserRepository());
+    }
 
     @Test
     public void givenAllUsers_whenAskingAllUsers_thenAllUsersAreReturned() {
