@@ -1,6 +1,8 @@
 package be.ucll.unit.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -25,26 +27,33 @@ public class UserServiceTest {
 
     @Test
     public void givenAllUsers_whenAskingAllUsers_thenAllUsersAreReturned() {
-        List<User> actualUsers = new ArrayList<>();
-        actualUsers.add(new User("John Doe", 56, "john.doe@ucll.be", "john1234"));
-        actualUsers.add(new User("Jane Toe", 30, "jane.toe@ucll.be", "jane1234")); 
-        actualUsers.add(new User("Jack Doe", 5, "jack.doe@ucll.be", "jack1234"));
-        actualUsers.add(new User("Sarah Doe", 4, "sarah.doe@ucll.be", "sarah1234"));
+        List<User> expectedUsers = new ArrayList<>();
+        expectedUsers.add(new User("John Doe", 56, "john.doe@ucll.be", "john1234"));
+        expectedUsers.add(new User("Jane Toe", 30, "jane.toe@ucll.be", "jane1234")); 
+        expectedUsers.add(new User("Jack Doe", 5, "jack.doe@ucll.be", "jack1234"));
+        expectedUsers.add(new User("Sarah Doe", 4, "sarah.doe@ucll.be", "sarah1234"));
     
-        assertEquals(actualUsers, userService.getAllUsers());
+        List<User> actualUsers = userService.getAllUsers();
+
+        assertEquals(expectedUsers.size(), actualUsers.size());
+        assertIterableEquals(expectedUsers, userService.getAllUsers());
     }
 
     @Test
-    public void givenAllAdultUsers_whenAskingAllAdultUsers_thenAllAdultUsersAreGiven() {
-        List<User> foundUsers = userService.getAllAdults();
+    public void givenAdultUsers_whenAskingAllAdultUsers_thenAllAdultUsersAreGiven() {
+        List<User> foundUsers = userService.getAllAdultUsers();
 
+        int expectedNrOfAdults = 2;
+        int expectedMinimumAge = 18;
+
+        assertEquals(expectedNrOfAdults, foundUsers.size());
         for (User user : foundUsers) {
-            assertTrue(user.getAge() >= 18);
+            assertTrue(user.getAge() >= expectedMinimumAge);
         }
     }
 
     @Test
-    public void givenAllUsersWithinAgeRange_whenAskingUsersWithingAgeRange_thenUsersWithinAgeRangeReturned() {
+    public void givenUsersAndAgeRange_whenAskingUsersWithinAgeRange_thenUsersWithinAgeRangeReturned() {
         List<User> foundUsers = userService.getUsersByAgeRange(29, 57);
 
         assertEquals(2, foundUsers.size());
@@ -53,36 +62,42 @@ public class UserServiceTest {
     }
 
     @Test
-    public void givenInvalidAgeRange_whenAskingUsersWithAgeRange_thenErrorIsThrown() {
-        assertThrows(ServiceException.class,
-        () -> {
-            List<User> InvalidRange = userService.getUsersByAgeRange(30, 29);
-            }
-        );
-    
-        assertThrows(ServiceException.class,
-        () -> {
-            List<User> InvalidRange = userService.getUsersByAgeRange(1, 151);
-            }
-        );
+    public void givenUsersAndAgeRange_whenAskingUsersNotInAgeRange_thenEmptyListReturned() {
+        List<User> foundUsers = userService.getUsersByAgeRange(149, 150);
+
+        assertNotNull(foundUsers);
+        assertTrue(foundUsers.isEmpty());
     }
 
     @Test
-    public void givenUsersFound_whenFilteringByName_thenUsersGiven() {
-        List<User> foundUsers = userService.getUsersByName("j");
+    public void givenInvalidAgeRange_whenAskingUsersWithAgeRange_thenErrorWithMessageIsThrown() {
+        assertThrows(ServiceException.class,
+        () -> userService.getUsersByAgeRange(30, 29),
+        "Minimum cannot be greater than maximum age.");
+    
+        assertThrows(ServiceException.class,
+        () -> userService.getUsersByAgeRange(1, 151),
+        "Age must be between 0 and 150.");
+
+        assertThrows(ServiceException.class,
+        () -> userService.getUsersByAgeRange(-1, 150),
+        "Age must be between 0 and 150.");
+    }
+
+    @Test
+    public void givenUsersAndMatchingName_whenFilteringByName_thenUsersGiven() {
+        List<User> foundUsers = userService.getUsersByName("Doe");
 
         assertEquals(3, foundUsers.size());
         assertEquals(foundUsers.get(0).getName(), "John Doe");
-        assertEquals(foundUsers.get(1).getName(), "Jane Toe");
-        assertEquals(foundUsers.get(2).getName(), "Jack Doe");
+        assertEquals(foundUsers.get(1).getName(), "Jack Doe");
+        assertEquals(foundUsers.get(2).getName(), "Sarah Doe");
     }
 
     @Test
-    public void givenNoUserFound_whenFilteringByName_thenErrorIsThrown() {
+    public void givenUsersWithNoMatchingName_whenFilteringByName_thenErrorIsThrown() {
         assertThrows(ServiceException.class,
-        () -> {
-            List<User> foundUsers = userService.getUsersByName("Rajo");
-            }
-        );
+        () -> userService.getUsersByName("Rajo"),
+        "No users with that name found.");
     }
 }

@@ -27,7 +27,7 @@ public class UserRepository {
     public List<User> usersOlderThan(int age) {
         List<User> allAdultUsers = new ArrayList<>();
         for (User user : users) {
-            if(user.getAge() >= age) {
+            if(user.getAge() > age) {
                 allAdultUsers.add(user);
             }
         }

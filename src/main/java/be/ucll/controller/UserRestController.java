@@ -25,7 +25,7 @@ public class UserRestController {
     
     @GetMapping
     public List<User> getAllUsers(@RequestParam(value = "name", required = false) String name) {
-        if(name == null) {
+        if(name == null || name.isBlank()) {
             return userService.getAllUsers();
         }
         return userService.getUsersByName(name);
@@ -33,7 +33,7 @@ public class UserRestController {
 
     @GetMapping("/adults")
     public List<User> getAllAdults() {
-        return userService.getAllAdults();
+        return userService.getAllAdultUsers();
     }
 
     @GetMapping("/age/{min}/{max}")
