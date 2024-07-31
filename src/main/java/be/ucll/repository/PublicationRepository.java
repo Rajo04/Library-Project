@@ -27,12 +27,13 @@ public class PublicationRepository {
         ));
     }
 
-    public List<Publication> findByTitleAndType() {
+    public List<Publication> findByTitleAndType(String title, String type) {
         List<Publication> filteredByTitleOrType = new ArrayList<>();
 
         for (Publication publication : filteredByTitleOrType) {
             
         }
+        return null;
     }
 
 }

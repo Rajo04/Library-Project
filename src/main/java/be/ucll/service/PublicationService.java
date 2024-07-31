@@ -15,7 +15,7 @@ public class PublicationService {
         this.publicationRepository = publicationRepository;
     }
 
-    public List<Publication> findPublicationByTitleAndType() {
-        return publicationRepository.findByTitleAndType();
+    public List<Publication> findPublicationByTitleAndType(String title, String type) {
+        return publicationRepository.findByTitleAndType(title, type);
     }
 }
