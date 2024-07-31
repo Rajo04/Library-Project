@@ -1,5 +1,21 @@
 package be.ucll.service;
 
-public class PublicationService {
+import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+import be.ucll.model.Publication;
+import be.ucll.repository.PublicationRepository;
+
+@Service
+public class PublicationService {
+    private PublicationRepository publicationRepository;
+
+    public PublicationService(PublicationRepository publicationRepository) {
+        this.publicationRepository = publicationRepository;
+    }
+
+    public List<Publication> findPublicationByTitleAndType() {
+        return publicationRepository.findByTitleAndType();
+    }
 }
