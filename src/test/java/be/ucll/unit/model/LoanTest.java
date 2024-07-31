@@ -23,6 +23,7 @@ public class LoanTest {
     private LocalDate validEndDate;
     private User validUser;
     private List<Publication> validPublications;
+    private final int STARTING_NR_OF_COPIES = 10;
 
     @BeforeEach
     void init(){
@@ -35,18 +36,33 @@ public class LoanTest {
         validUser = new User("John Doe", 56, "john.doe@ucll.be", "john1234");
 
         validPublications = new ArrayList<>();
-        validPublications.add(new Book("Vikings", "Arthur", "9783161484100", 2010, 10));
-        validPublications.add(new Magazine("Flair", "Jan", "03785955", 2011, 10));
+        validPublications.add(new Book("Vikings", "Arthur", "9783161484100", 2010, STARTING_NR_OF_COPIES));
+        validPublications.add(new Magazine("Flair", "Jan", "03785955", 2011, STARTING_NR_OF_COPIES));
     }
 
     @Test
-    public void givenValidValues_whenCreatingLoan_thenLoanIsCreated() {
+    public void givenValidValues_whenCreatingLoan_thenLoanIsCreatedAndCopiesDecremented() {
         Loan loan = new Loan(validStartDate, validEndDate, validUser, validPublications);
 
         assertEquals(validStartDate, loan.getStartDate());
         assertEquals(validEndDate, loan.getEndDate());
         assertEquals(validUser, loan.getUser());
         assertIterableEquals(validPublications, loan.getPublications());    
+
+        for (Publication publication : loan.getPublications()) {
+            assertEquals(STARTING_NR_OF_COPIES - 1, publication.getAvailableCopies());
+        }
+    }
+
+    @Test
+    public void givenValidValues_whenReturningLoan_thenCopiesIncremented() {
+        Loan loan = new Loan(validStartDate, validEndDate, validUser, validPublications);
+
+        loan.returnPublications();
+
+        for (Publication publication : loan.getPublications()) {
+            assertEquals(STARTING_NR_OF_COPIES, publication.getAvailableCopies());
+        }
     }
 
     @Test
@@ -119,5 +135,15 @@ public class LoanTest {
         assertThrows(DomainException.class,
         () -> new Loan(validStartDate, validEndDate, validUser, emptyPublications),
         "Publications are required.");
+    }
+
+    @Test
+    public void givenUnavailablePublications_whenCreatingLoan_thenErrorWithMessageIsThrown() {
+        List<Publication> unavailablePublications = new ArrayList<>();
+        unavailablePublications.add(new Book("Vikings", "Arthur", "9783161484100", 2010, 0));
+
+        assertThrows(DomainException.class,
+        () -> new Loan(validStartDate, validEndDate, validUser, unavailablePublications),
+        "Unable to lend publications, no available copies left for Vikings.");
     }
 }

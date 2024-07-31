@@ -7,8 +7,8 @@ public class Magazine extends Publication {
     private String editor;
     private String issn;
     
-    public Magazine(String title, String editor, String issn, int PublicationYear, int availableCopies) {
-        super(title, PublicationYear, availableCopies);
+    public Magazine(String title, String editor, String issn, int publicationYear, int availableCopies) {
+        super(title, publicationYear, availableCopies);
         setEditor(editor);
         setIssn(issn);
     }
