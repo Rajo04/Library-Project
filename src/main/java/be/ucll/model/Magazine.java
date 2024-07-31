@@ -31,4 +31,14 @@ public class Magazine extends Publication {
         validateIssn(issn, "issn has to be exactly 8 characters long and is required.");
         this.issn = issn;
     }
+
+
+    @Override
+    public String toString() {
+        return "Magazine [editor=" + editor + ", issn=" + issn + ", getTitle=" + getTitle()
+                + ", getPublicationYear=" + getPublicationYear() + ", getAvailableCopies=" + getAvailableCopies()
+                + "]";
+    }
+
+    
 }

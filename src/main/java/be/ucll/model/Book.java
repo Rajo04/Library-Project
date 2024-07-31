@@ -30,4 +30,11 @@ public class Book extends Publication {
         validateIsbn(isbn, "ISBN is required to have 13 digits and cannot be empty.");
         this.isbn = isbn;
     }
+
+
+    @Override
+    public String toString() {
+        return "Book [author=" + author + ", isbn=" + isbn + ", getTitle=" + getTitle() + ", getPublicationYear="
+                + getPublicationYear() + ", getAvailableCopies=" + getAvailableCopies() + "]";
+    }
 }

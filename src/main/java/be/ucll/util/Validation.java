@@ -48,7 +48,9 @@ public interface Validation {
     static void validateIsbn(String isbn, String message) {
         if(isbn == null || isbn.isBlank()) {
             throwDomainException(message);
-        } else if(isbn.length() != 13) {
+        } 
+        isbn = isbn.replaceAll("-", "");
+        if(isbn.length() != 13) {
             throwDomainException(message);
         }
     }
@@ -56,7 +58,9 @@ public interface Validation {
     static void validateIssn(String issn, String message) {
         if(issn == null || issn.isBlank()) {
             throwDomainException(message);
-        } else if(issn.length() != 8) {
+        } 
+        issn = issn.replaceAll("-", "");
+        if(issn.length() != 8) {
             throwDomainException(message);        }
     }
 }
