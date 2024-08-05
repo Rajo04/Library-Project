@@ -3,7 +3,6 @@ package be.ucll.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import be.ucll.model.Loan;
-import be.ucll.service.LoanService;
 import be.ucll.model.User;
 import be.ucll.service.UserService;
 
@@ -43,13 +42,13 @@ public class UserRestController {
         return userService.getUsersByAgeRange(min, max);
     }
 
-    @GetMapping("{email}/loans")
-    public List<Loan> getLoansByUser(@PathVariable String email,
-        @RequestParam(value = "onlyActive", required = false, defaultValue = false) boolean onlyActive) {
-            if(onlyActive) {
-                return loanService
-            }
-    }
-    }
+    // @GetMapping("{email}/loans")
+    // public List<Loan> getLoansByUser(@PathVariable String email,
+    //     @RequestParam(value = "onlyActive", required = false, defaultValue = false) boolean onlyActive) {
+    //         if(onlyActive) {
+    //             return loanService
+    //         }
+    // }
+    // }
     
 }

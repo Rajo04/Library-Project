@@ -55,14 +55,16 @@ public class LoanTest {
     }
 
     @Test
-    public void givenValidValues_whenReturningLoan_thenCopiesIncremented() {
+    public void givenValidValues_whenReturningLoan_thenCopiesIncrementedAndEndDateSetToToday() {
         Loan loan = new Loan(validStartDate, validEndDate, validUser, validPublications);
+        LocalDate today = LocalDate.now();
 
         loan.returnPublications();
 
         for (Publication publication : loan.getPublications()) {
             assertEquals(STARTING_NR_OF_COPIES, publication.getAvailableCopies());
         }
+        assertEquals(today, loan.getEndDate());
     }
 
     @Test
@@ -81,15 +83,6 @@ public class LoanTest {
         assertThrows(DomainException.class,
         () -> new Loan(futureStartDate, validEndDate, validUser, validPublications),
         "Start date cannot be in the future.");
-    }
-
-    @Test
-    public void givenEndDateNull_whenCreatingLoan_thenErrorWithMessageThrown() {
-        LocalDate nullEndDate = null;
-        
-        assertThrows(DomainException.class,
-        () -> new Loan(validStartDate, nullEndDate, validUser, validPublications),
-        "End date is required.");
     }
 
     @Test

@@ -23,10 +23,10 @@ public class Loan {
     }
 
     public void setStartDate(LocalDate startDate) {
-        if(startDate == null) {
+        if (startDate == null) {
             throwDomainException("Start date is required.");
         }
-        if(startDate.isAfter(LocalDate.now())) {
+        if (startDate.isAfter(LocalDate.now())) {
             throwDomainException("Start date cannot be in the future.");
         }
         this.startDate = startDate;
@@ -37,14 +37,13 @@ public class Loan {
     }
 
     public void setEndDate(LocalDate endDate) {
-        if(endDate == null) {
-            throwDomainException("End date is required.");
-        }
-        if(endDate.isBefore(startDate)){
-            throwDomainException("Start date cannot be after end date.");
-        }
-        if(endDate.isAfter(LocalDate.now())){
-            throwDomainException("End date cannot be in the future.");
+        if (endDate != null) {
+            if (endDate.isBefore(startDate)) {
+                throwDomainException("Start date cannot be after end date.");
+            }
+            if (endDate.isAfter(LocalDate.now())) {
+                throwDomainException("End date cannot be in the future.");
+            }
         }
         this.endDate = endDate;
     }
@@ -54,7 +53,7 @@ public class Loan {
     }
 
     public void setUser(User user) {
-        if(user == null) {
+        if (user == null) {
             throwDomainException("User is required.");
         }
         this.user = user;
@@ -65,23 +64,25 @@ public class Loan {
     }
 
     public void setPublications(List<Publication> publications) {
-        if(publications == null || publications.size() == 0) {
+        if (publications == null || publications.size() == 0) {
             throwDomainException("Publications are required.");
         }
-        for(Publication publication: publications) {
-            if(!publication.hasAvailableCopies()) {
+        for (Publication publication : publications) {
+            if (!publication.hasAvailableCopies()) {
                 throwDomainException("Unable to lend publication. No copies available for." + publication.getTitle());
             }
         }
-        for(Publication publication : publications) {
+        for (Publication publication : publications) {
             publication.lendPublication();
         }
         this.publications = publications;
     }
 
     public void returnPublications() {
-        for(Publication publication : this.publications) {
+        for (Publication publication : this.publications) {
             publication.returnPublication();
         }
+        LocalDate today = LocalDate.now();
+        setEndDate(today);
     }
 }
