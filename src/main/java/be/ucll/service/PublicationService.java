@@ -15,7 +15,11 @@ public class PublicationService {
         this.publicationRepository = publicationRepository;
     }
 
-    public List<Publication> findPublicationByTitleAndType(String title, String type) {
+    public List<Publication> findPublicationsByTitleAndType(String title, String type) {
         return publicationRepository.findByTitleAndType(title, type);
     }
+
+    public List<Publication> findPublicationsByAvailableCopies(int availableCopies) {
+        return publicationRepository.filterByAvailableCopies(availableCopies);
+       }
 }

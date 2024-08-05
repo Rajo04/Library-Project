@@ -3,6 +3,7 @@ package be.ucll.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,11 @@ public class PublicationRestController {
         @RequestParam(required = false) String title,
         @RequestParam(required = false) String type
         ){
-        return publicationService.findPublicationByTitleAndType(title, type);
+        return publicationService.findPublicationsByTitleAndType(title, type);
+    }
+
+    @GetMapping("/stock/{avalaibleCopies}")
+    public List<Publication> getPublicationsByAvailableCopies(@PathVariable("availableCopies") int availableCopies) {
+        return publicationService.findPublicationsByAvailableCopies(availableCopies);
     }
 }

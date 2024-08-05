@@ -40,5 +40,30 @@ public class Magazine extends Publication {
                 + "]";
     }
 
-    
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((issn == null) ? 0 : issn.hashCode());
+        return result;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Magazine other = (Magazine) obj;
+        if (issn == null) {
+            if (other.issn != null)
+                return false;
+        } else if (!issn.equals(other.issn))
+            return false;
+        return true;
+    }
 }
