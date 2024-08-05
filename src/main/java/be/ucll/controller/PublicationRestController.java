@@ -22,14 +22,13 @@ public class PublicationRestController {
 
     @GetMapping
     public List<Publication> getAllPublications(
-        @RequestParam(required = false) String title,
-        @RequestParam(required = false) String type
-        ){
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String type) {
         return publicationService.findPublicationsByTitleAndType(title, type);
     }
 
-    @GetMapping("/stock/{avalaibleCopies}")
-    public List<Publication> getPublicationsByAvailableCopies(@PathVariable("availableCopies") int availableCopies) {
+    @GetMapping("/stock/{availableCopies}")
+    public List<Publication> getPublicationsByAvailableCopies(@PathVariable int availableCopies) {
         return publicationService.findPublicationsByAvailableCopies(availableCopies);
     }
 }
