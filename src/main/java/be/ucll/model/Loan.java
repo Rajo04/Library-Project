@@ -5,6 +5,8 @@ import static be.ucll.util.Validation.throwDomainException;
 import java.time.LocalDate;
 import java.util.List;
 
+import be.ucll.repository.LoanRepository;
+
 public class Loan {
     private LocalDate startDate;
     private LocalDate endDate;
@@ -64,17 +66,21 @@ public class Loan {
     }
 
     public void setPublications(List<Publication> publications) {
-        if (publications == null || publications.size() == 0) {
-            throwDomainException("Publications are required.");
-        }
-        for (Publication publication : publications) {
-            if (!publication.hasAvailableCopies()) {
-                throwDomainException("Unable to lend publication. No copies available for." + publication.getTitle());
+        if (this.endDate == null) {
+            if (publications == null || publications.size() == 0) {
+                throwDomainException("Publications are required.");
+            }
+            for (Publication publication : publications) {
+                if (!publication.hasAvailableCopies()) {
+                    throwDomainException(
+                            "Unable to lend publication. No copies available for." + publication.getTitle());
+                }
+            }
+            for (Publication publication : publications) {
+                publication.lendPublication();
             }
         }
-        for (Publication publication : publications) {
-            publication.lendPublication();
-        }
+
         this.publications = publications;
     }
 
@@ -84,5 +90,9 @@ public class Loan {
         }
         LocalDate today = LocalDate.now();
         setEndDate(today);
+    }
+
+    public boolean isActive() {
+        return endDate == null;
     }
 }
