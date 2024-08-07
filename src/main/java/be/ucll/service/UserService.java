@@ -47,6 +47,6 @@ public class UserService {
         if(userRepository.findUserByEmail(user.getEmail()) != null){
             throw new ServiceException("User already exists");
         }
-        userRepository.addUser(user);
+        return userRepository.addUser(user);
     }
 }
