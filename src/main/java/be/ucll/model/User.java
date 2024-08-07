@@ -39,6 +39,9 @@ public class User {
     }
 
     public void setEmail(String email) {
+        if(getEmail() != null && !email.equals(getEmail())) {
+            throw new DomainException("Email cannot be changed.");
+        }
         validateEmail(email, "E-mail must be a valid email format");
         this.email = email;
     }

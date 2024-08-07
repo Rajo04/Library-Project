@@ -9,9 +9,10 @@ import be.ucll.model.User;
 
 @Repository
 public class UserRepository {
+
     public List<User> users;
 
-    public UserRepository() {
+    public UserRepository(LoanRepository loanRepository) {
         users = new ArrayList<>(List.of(
         new User("John Doe", 56, "john.doe@ucll.be", "john1234"),
         new User("Jane Toe", 30, "jane.toe@ucll.be", "jane1234"), 
@@ -75,5 +76,22 @@ public class UserRepository {
     public User addUser(User user){
         users.add(user);
         return user;
+    }
+
+    public User updateUserByEmail(String email, User user) {
+        User fetchedUser = findUserByEmail(email);
+        fetchedUser.setEmail(user.getEmail());
+        fetchedUser.setName(user.getName());
+        fetchedUser.setAge(user.getAge());
+        fetchedUser.setPassword(user.getPassword());
+        return fetchedUser;
+    }
+
+    public String deleteLoansForUserByEmail(String email) {
+        for (User user : users) {
+            if(user.getEmail().equals(email)) {
+                
+            }
+        }
     }
 }

@@ -6,14 +6,17 @@ import org.springframework.stereotype.Service;
 
 import be.ucll.model.ServiceException;
 import be.ucll.model.User;
+import be.ucll.repository.LoanRepository;
 import be.ucll.repository.UserRepository;
 
 @Service
 public class UserService {
     private UserRepository userRepository;
+    private LoanRepository loanRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, LoanRepository loanRepository) {
         this.userRepository = userRepository;
+        this.loanRepository = loanRepository;
     }
 
     public List<User> getAllUsers() {
@@ -48,5 +51,25 @@ public class UserService {
             throw new ServiceException("User already exists");
         }
         return userRepository.addUser(user);
+    }
+
+    public User updateUserByEmail(String email, User user) {
+        if(userRepository.findUserByEmail(email) == null) {
+            throw new ServiceException("User does not exist.");
+        }
+        return userRepository.updateUserByEmail(email, user);
+    }
+
+    public String deleteLoansForUserByEmail(String email) {
+        if(userRepository.findUserByEmail(email) == null) {
+            throw new ServiceException("User does not exist.");
+        }
+        if(loanRepository.findLoansByUser(email, true) != null) {
+            throw new ServiceException("User has active loans.");
+        }
+        if (loanRepository.findLoansByUser(email, false) == null) {
+            throw new ServiceException("User has no loans.");
+        }
+        return userRepository.deleteLoansForUserByEmail(email);
     }
 }
