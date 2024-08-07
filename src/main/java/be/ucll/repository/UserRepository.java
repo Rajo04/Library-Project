@@ -62,4 +62,15 @@ public class UserRepository {
         }
         return false;
     }
+
+    public List<User> findUserByEmail(String email) {
+        for (User user : users) {
+            if(user.getEmail().equals(email))
+        }
+        return user
+    }
+
+    public void addUser(User user){
+        users.add(user)
+    }
 }

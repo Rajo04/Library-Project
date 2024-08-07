@@ -42,4 +42,11 @@ public class UserService {
         }
         return usersWithName;
     }
+
+    public User addUser(User user) {
+        if(userRepository.findUserByEmail(user.getEmail()) != null){
+            throw new ServiceException("User already exists")   
+        }
+        userRepository.addUser(user) 
+    }
 }

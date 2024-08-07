@@ -48,4 +48,9 @@ public class UserRestController {
         @RequestParam(value = "onlyActive", required = false, defaultValue = "false") boolean onlyActive) {
             return loanService.getLoansByUser(email, onlyActive);
     }
+
+    @PostMapping
+    public User addUser(User user) {
+        return UserService.addUser(user)
+    }
 }
