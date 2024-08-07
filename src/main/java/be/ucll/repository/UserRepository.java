@@ -65,12 +65,12 @@ public class UserRepository {
 
     public List<User> findUserByEmail(String email) {
         for (User user : users) {
-            if(user.getEmail().equals(email))
+            if(user.getEmail().equals(email));
         }
-        return user
+        return user;
     }
 
     public void addUser(User user){
-        users.add(user)
+        users.add(user);
     }
 }

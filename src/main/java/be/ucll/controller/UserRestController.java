@@ -51,6 +51,6 @@ public class UserRestController {
 
     @PostMapping
     public User addUser(User user) {
-        return UserService.addUser(user)
+        return UserService.addUser(user);
     }
 }
