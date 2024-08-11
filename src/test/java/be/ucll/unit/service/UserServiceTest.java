@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -16,8 +16,10 @@ import org.junit.jupiter.api.Test;
 import be.ucll.model.DomainException;
 import be.ucll.model.ServiceException;
 import be.ucll.model.User;
+import be.ucll.service.LoanService;
 import be.ucll.service.UserService;
 import be.ucll.repository.LoanRepository;
+import be.ucll.repository.PublicationRepository;
 import be.ucll.repository.UserRepository;
 
 public class UserServiceTest {
@@ -25,7 +27,8 @@ public class UserServiceTest {
 
     @BeforeEach
     void init() {
-        this.userService = new UserService(new UserRepository());
+        UserRepository  userRepository = new UserRepository();
+        this.userService = new UserService(new UserRepository(), new LoanService(new LoanRepository(userRepository, new PublicationRepository()), userRepository));
     }
 
     @Test
@@ -157,5 +160,41 @@ public class UserServiceTest {
         assertThrows(DomainException.class,
         () -> userService.updateUserByEmail(existingEmail, user),
         "Email cannot be changed.");
+    }
+
+    @Test
+    public void givenUserEmailWithInactiveLoans_whenDeletingUser_thenUserDeletedAndMessageReturned() {
+        String email = "jane.toe@ucll.be";
+        String expectedMessage = "User successfully deleted.";
+        int userCountBefore = userService.getAllUsers().size();
+
+
+        String actualMessage = userService.deleteUserByEmail(email);
+        int userCountAfter = userService.getAllUsers().size();
+
+        assertEquals(expectedMessage, actualMessage);
+        assertEquals(userCountBefore - 1, userCountAfter);
+    }
+
+    @Test
+    void givenNonExistingEmailWithNoActiveLoans_whenDeletingUserByEmail_thenExceptionWithMessageIsThrown() {
+        String nonExistingEmail = "test@test.test";
+
+        assertThrows(ServiceException.class,
+                () -> userService.deleteUserByEmail(nonExistingEmail),
+                "User does not exist.");
+    }
+
+    @Test
+    void givenExistingEmailWithActiveLoans_whenDeletingUserByEmail_thenExceptionWithMessageIsThrown() {
+        String existingEmail = "john.doe@ucll.be";
+        int userCountBefore = userService.getAllUsers().size();
+
+        assertThrows(ServiceException.class,
+                () -> userService.deleteUserByEmail(existingEmail),
+                "User has active loans.");
+        
+        int userCountAfter = userService.getAllUsers().size();
+        assertEquals(userCountBefore, userCountAfter);
     }
 }

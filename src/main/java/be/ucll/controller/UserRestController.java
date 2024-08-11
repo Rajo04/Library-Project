@@ -65,6 +65,11 @@ public class UserRestController {
 
     @DeleteMapping("/{email}/loans")
     public String deleteLoansForUserByEmail(@PathVariable String email) {
-        return userService.deleteLoansForUserByEmail(email);
+        return loanService.deleteLoansForUserByEmail(email);
+    }
+
+    @DeleteMapping("/{email}")
+    public String deleteUserByEmail(@PathVariable String email) {
+        return userService.deleteUserByEmail(email);
     }
 }

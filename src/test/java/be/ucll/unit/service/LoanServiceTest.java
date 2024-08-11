@@ -89,4 +89,43 @@ public class LoanServiceTest {
         assertThrows(ServiceException.class,
                 () -> this.loanService.getLoansByUser(nonExistingUsername, false));
     }
+
+    @Test
+    void givenExistingEmailWithNoActiveLoans_whenDeletingLoansForUserByEmail_thenLoansSuccessfullyDeletedAndMessageReturned() {
+        String existingEmail = "jane.toe@ucll.be";
+        String expectedMessage = "Loans of user are successfully deleted.";
+
+        String actualMessage = loanService.deleteLoansForUserByEmail(existingEmail);
+        List<Loan> fetchedLoansLoansAfterDelete = loanService.getLoansByUser(existingEmail, false);
+
+        assertEquals(expectedMessage, actualMessage);
+        assertTrue(fetchedLoansLoansAfterDelete.isEmpty());
+    }
+
+    @Test
+    void givenNonExistingEmailWithNoActiveLoans_whenDeletingLoansForUserByEmail_thenExceptionWithMessageIsThrown() {
+        String nonExistingEmail = "test@test.test";
+
+        assertThrows(ServiceException.class,
+                () -> loanService.deleteLoansForUserByEmail(nonExistingEmail),
+                "User does not exist.");
+    }
+
+    @Test
+    void givenExistingEmailWithActiveLoans_whenDeletingLoansForUserByEmail_thenExceptionWithMessageIsThrown() {
+        String existingEmail = "john.doe@ucll.be";
+
+        assertThrows(ServiceException.class,
+                () -> loanService.deleteLoansForUserByEmail(existingEmail),
+                "User has active loans.");
+    }
+
+    @Test
+    void givenExistingEmailWithNoLoans_whenDeletingLoansForUserByEmail_thenExceptionWithMessageIsThrown() {
+        String existingEmail = "jack.doe@ucll.be";
+
+        assertThrows(ServiceException.class,
+                () -> loanService.deleteLoansForUserByEmail(existingEmail),
+                "User has no loans.");
+    }
 }

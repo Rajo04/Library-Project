@@ -52,4 +52,13 @@ public class LoanRepository {
         }
         return filteredLoans;
     }
+
+    public void deleteLoansForUserByEmail(String email) {
+        for (int i = 0; i < loans.size(); i++) {
+            Loan loan = loans.get(i);
+            if (loan.getUser().getEmail().equals(email)) {
+                loans.remove(loan);
+           }
+        }
+    }
 }

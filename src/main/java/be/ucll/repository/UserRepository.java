@@ -12,13 +12,12 @@ public class UserRepository {
 
     public List<User> users;
 
-    public UserRepository(LoanRepository loanRepository) {
+    public UserRepository() {
         users = new ArrayList<>(List.of(
-        new User("John Doe", 56, "john.doe@ucll.be", "john1234"),
-        new User("Jane Toe", 30, "jane.toe@ucll.be", "jane1234"), 
-        new User("Jack Doe", 5, "jack.doe@ucll.be", "jack1234"), 
-        new User("Sarah Doe", 4, "sarah.doe@ucll.be", "sarah1234")
-        ));
+                new User("John Doe", 56, "john.doe@ucll.be", "john1234"),
+                new User("Jane Toe", 30, "jane.toe@ucll.be", "jane1234"),
+                new User("Jack Doe", 5, "jack.doe@ucll.be", "jack1234"),
+                new User("Sarah Doe", 4, "sarah.doe@ucll.be", "sarah1234")));
     }
 
     public List<User> allUsers() {
@@ -28,7 +27,7 @@ public class UserRepository {
     public List<User> usersOlderThan(int age) {
         List<User> allAdultUsers = new ArrayList<>();
         for (User user : users) {
-            if(user.getAge() > age) {
+            if (user.getAge() > age) {
                 allAdultUsers.add(user);
             }
         }
@@ -38,7 +37,7 @@ public class UserRepository {
     public List<User> findUsersByAgeRange(int min, int max) {
         List<User> usersWithinAgeRange = new ArrayList<>();
         for (User user : users) {
-            if(min <= user.getAge() && user.getAge() <= max) {
+            if (min <= user.getAge() && user.getAge() <= max) {
                 usersWithinAgeRange.add(user);
             }
         }
@@ -48,16 +47,16 @@ public class UserRepository {
     public List<User> usersByName(String name) {
         List<User> filteredByName = new ArrayList<>();
         for (User user : users) {
-            if(user.getName().toLowerCase().contains(name.toLowerCase())) {
+            if (user.getName().toLowerCase().contains(name.toLowerCase())) {
                 filteredByName.add(user);
             }
         }
         return filteredByName;
     }
 
-    public boolean userExists(String email){
-        for (User user: users){
-            if(user.getEmail().equals(email)){
+    public boolean userExists(String email) {
+        for (User user : users) {
+            if (user.getEmail().equals(email)) {
                 return true;
             }
         }
@@ -66,14 +65,14 @@ public class UserRepository {
 
     public User findUserByEmail(String email) {
         for (User user : users) {
-            if(user.getEmail().equals(email)){
+            if (user.getEmail().equals(email)) {
                 return user;
             }
         }
         return null;
     }
 
-    public User addUser(User user){
+    public User addUser(User user) {
         users.add(user);
         return user;
     }
@@ -87,10 +86,13 @@ public class UserRepository {
         return fetchedUser;
     }
 
-    public String deleteLoansForUserByEmail(String email) {
-        for (User user : users) {
-            if(user.getEmail().equals(email)) {
-                
+    public void deleteUserByEmail(String email) {
+        for (int i = 0; i < users.size(); i++) {
+            User user = users.get(i);
+
+            if (user.getEmail().equals(email)) {
+                users.remove(user);
+                break;
             }
         }
     }

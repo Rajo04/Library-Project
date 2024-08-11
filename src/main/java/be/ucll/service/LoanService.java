@@ -27,4 +27,18 @@ public class LoanService {
 
         return this.loanRepository.findLoansByUser(email, onlyActive);
     }
+
+    public String deleteLoansForUserByEmail(String email) {
+        if(userRepository.findUserByEmail(email) == null) {
+            throw new ServiceException("User does not exist.");
+        }
+        if(!loanRepository.findLoansByUser(email, true).isEmpty()) {
+            throw new ServiceException("User has active loans.");
+        }
+        if (loanRepository.findLoansByUser(email, false).isEmpty()) {
+            throw new ServiceException("User has no loans.");
+        }
+        loanRepository.deleteLoansForUserByEmail(email);
+        return "Loans of user are successfully deleted.";
+    }
 }
