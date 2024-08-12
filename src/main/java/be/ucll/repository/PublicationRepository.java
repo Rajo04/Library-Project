@@ -65,4 +65,18 @@ public class PublicationRepository {
         return filteredByAvailableCopies;
     }
 
+    public void resetRepositoryData() {
+        books = new ArrayList<>(List.of(
+                new Book("Vikings", "Arthur", "9783161484100", 2010, 10),
+                new Book("Annabel", "James Barnes", "9783161484140", 2014, 10),
+                new Book("The Hunger Games", "Suzanne collins", "9783161488140", 2011, 10),
+                new Book("Franklin Brothers", "Josh Jefferson", "9783169484140", 2008, 10)));
+
+        magazines = new ArrayList<>(List.of(
+                new Magazine("The Guardian", "James Barnes", "12345678", 2010, 10),
+                new Magazine("The New York Times", "Suzanne Collins", "12345671", 2014, 10),
+                new Magazine("The Washington Post", "Josh Jefferson", "12345672", 2011, 10),
+                new Magazine("The Wall Street Journal", "Josh Jefferson", "12345673", 2008, 10)));
+    }
+
 }
