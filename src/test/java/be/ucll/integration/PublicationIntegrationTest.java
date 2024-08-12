@@ -94,7 +94,7 @@ public class PublicationIntegrationTest {
                         "  {\n" +
                         "    \"title\": \"The Guardian\",\n" +
                         "    \"publicationYear\": 2010,\n" +
-                        "    \"availableCopies\": 9,\n" +
+                        "    \"availableCopies\": 10,\n" +
                         "    \"editor\": \"James Barnes\",\n" +
                         "    \"issn\": \"12345678\"\n" +
                         "  },\n" +
