@@ -97,18 +97,20 @@ public class UserIntegrationTest {
                                 .expectStatus().isOk()
                                 .expectBody().json(
                                                 """
-                                                                {                                                          "name": "John Doe",
-                                                                  "age": 56,
-                                                                  "email": "john.doe@ucll.be",
-                                                                  "password": "john1234"
-                                                                },
-                                                                {
-                                                                  "name": "Jane Toe",
-                                                                  "age": 30,
-                                                                  "email": "jane.toe@ucll.be",
-                                                                  "password": "jane1234"
-                                                                }
-                                                                """);
+                                                                [
+                                                                       {                                                          "name": "John Doe",
+                                                                         "age": 56,
+                                                                         "email": "john.doe@ucll.be",
+                                                                         "password": "john1234"
+                                                                       },
+                                                                       {
+                                                                         "name": "Jane Toe",
+                                                                         "age": 30,
+                                                                         "email": "jane.toe@ucll.be",
+                                                                         "password": "jane1234"
+                                                                       }
+                                                                        ]
+                                                                       """);
         }
 
         @Test
@@ -117,31 +119,31 @@ public class UserIntegrationTest {
                                 .expectStatus().isOk()
                                 .expectBody().json(
                                                 """
-                                                                  {
-                                                                  "name": "John Doe",
-                                                                  "age": 56,
-                                                                  "email": "john.doe@ucll.be",
-                                                                  "password": "john1234"
-                                                                },
-                                                                {
-                                                                  "name": "Jane Toe",
-                                                                  "age": 30,
-                                                                  "email": "jane.toe@ucll.be",
-                                                                  "password": "jane1234"
-                                                                },
-                                                                {
-                                                                  "name": "Jack Doe",
-                                                                  "age": 5,
-                                                                  "email": "jack.doe@ucll.be",
-                                                                  "password": "jack1234"
-                                                                },
-                                                                {
-                                                                  "name": "Sarah Doe",
-                                                                  "age": 4,
-                                                                  "email": "sarah.doe@ucll.be",
-                                                                  "password": "sarah1234"
-                                                                }
-                                                                  """);
+                                                                [          {
+                                                                          "name": "John Doe",
+                                                                          "age": 56,
+                                                                          "email": "john.doe@ucll.be",
+                                                                          "password": "john1234"
+                                                                        },
+                                                                        {
+                                                                          "name": "Jane Toe",
+                                                                          "age": 30,
+                                                                          "email": "jane.toe@ucll.be",
+                                                                          "password": "jane1234"
+                                                                        },
+                                                                        {
+                                                                          "name": "Jack Doe",
+                                                                          "age": 5,
+                                                                          "email": "jack.doe@ucll.be",
+                                                                          "password": "jack1234"
+                                                                        },
+                                                                        {
+                                                                          "name": "Sarah Doe",
+                                                                          "age": 4,
+                                                                          "email": "sarah.doe@ucll.be",
+                                                                          "password": "sarah1234"
+                                                                        }]
+                                                                          """);
         }
 
         @Test
@@ -159,7 +161,7 @@ public class UserIntegrationTest {
                                 .expectStatus().isOk()
                                 .expectBody().json(
                                                 """
-                                                                {
+                                                                [{
                                                                 "startDate": """ + startDateFirstLoanOfJohn + """
                                                                 "endDate": """ + endDateFirstLoanOfJohn + """
                                                                   "user": {
@@ -198,7 +200,7 @@ public class UserIntegrationTest {
                                                                     }
                                                                   ],
                                                                   "active": true
-                                                                }
+                                                                }]
                                                                 """);
         }
 
@@ -211,12 +213,12 @@ public class UserIntegrationTest {
                                 .bodyValue(
                                                 """
                                                                 {
-                                                                "name": "Peter Griffin",
-                                                                "age": 22,
-                                                                "email": "peter.griffin@ucll.be",
-                                                                "password": "peter1234"
-                                                                }
-                                                                """)
+                                                                 "name": "Peter Griffin",
+                                                                 "age": 22,
+                                                                 "email": "peter.griffin@ucll.be",
+                                                                 "password": "peter1234"
+                                                                 }
+                                                                 """)
                                 .exchange()
                                 .expectStatus().isOk()
                                 .expectBody().json(
