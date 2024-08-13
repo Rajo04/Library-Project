@@ -56,34 +56,38 @@ public class UserIntegrationTest {
         public void givenUsers_whenGetUsers_thenUsersAreReturned() {
                 // TODO: Use text blocks (triple quotes) instead of many mini-strings and
                 // concatenation (+) and \n and \"
-                webTestClient.get().uri("/users").exchange()
+                webTestClient.get()
+                                .uri("/users")
+                                .exchange()
                                 .expectStatus().isOk()
                                 .expectBody().json(
                                                 """
-                                                                {
-                                                                  "name": "John Doe",
-                                                                  "age": 56,
-                                                                  "email": "john.doe@ucll.be",
-                                                                  "password": "john1234"
-                                                                },
-                                                                {
-                                                                  "name": "Jane Toe",
-                                                                  "age": 30,
-                                                                  "email": "jane.toe@ucll.be",
-                                                                  "password": "jane1234"
-                                                                },
-                                                                {
-                                                                  "name": "Jack Doe",
-                                                                  "age": 5,
-                                                                  "email": "jack.doe@ucll.be",
-                                                                  "password": "jack1234"
-                                                                },
-                                                                {
-                                                                  "name": "Sarah Doe",
-                                                                  "age": 4,
-                                                                  "email": "sarah.doe@ucll.be",
-                                                                  "password": "sarah1234"
-                                                                }
+                                                                [
+                                                                    {
+                                                                        "name": "John Doe",
+                                                                        "age": 56,
+                                                                        "email": "john.doe@ucll.be",
+                                                                        "password": "john1234"
+                                                                    },
+                                                                    {
+                                                                        "name": "Jane Toe",
+                                                                        "age": 30,
+                                                                        "email": "jane.toe@ucll.be",
+                                                                        "password": "jane1234"
+                                                                    },
+                                                                    {
+                                                                        "name": "Jack Doe",
+                                                                        "age": 5,
+                                                                        "email": "jack.doe@ucll.be",
+                                                                        "password": "jack1234"
+                                                                    },
+                                                                    {
+                                                                        "name": "Sarah Doe",
+                                                                        "age": 4,
+                                                                        "email": "sarah.doe@ucll.be",
+                                                                        "password": "sarah1234"
+                                                                    }
+                                                                ]
                                                                 """);
         }
 
