@@ -8,13 +8,17 @@ import java.util.List;
 import be.ucll.repository.LoanRepository;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
 
 public class Loan {
     @NotNull(message = "Start date is required.")
     @PastOrPresent(message = "Start date cannnot be in the future.")
     private LocalDate startDate;
     private LocalDate endDate;
+    @NotNull(message = "User is required.")
     private User user;
+    @NotNull(message = "Publications are required.")
+    @Size(min = 1, message = "Publications are required.")
     private List<Publication> publications;
 
     public Loan(LocalDate starDate, LocalDate endDate, User user, List<Publication> publications) {
@@ -29,12 +33,6 @@ public class Loan {
     }
 
     public void setStartDate(LocalDate startDate) {
-        if (startDate == null) {
-            throwDomainException("Start date is required.");
-        }
-        if (startDate.isAfter(LocalDate.now())) {
-            throwDomainException("Start date cannot be in the future.");
-        }
         this.startDate = startDate;
     }
 
@@ -59,9 +57,6 @@ public class Loan {
     }
 
     public void setUser(User user) {
-        if (user == null) {
-            throwDomainException("User is required.");
-        }
         this.user = user;
     }
 
@@ -71,9 +66,6 @@ public class Loan {
 
     public void setPublications(List<Publication> publications) {
         if (this.endDate == null) {
-            if (publications == null || publications.size() == 0) {
-                throwDomainException("Publications are required.");
-            }
             for (Publication publication : publications) {
                 if (!publication.hasAvailableCopies()) {
                     throwDomainException(
