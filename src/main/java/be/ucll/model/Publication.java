@@ -11,7 +11,7 @@ import jakarta.validation.constraints.Positive;
 public abstract class Publication {
     @NotBlank(message = "Title is required.")
     private String title;
-
+    @Positive(message = "Publication year cannot be negative nor in the future.")
     private int publicationYear;
     @Positive(message = "Available copies cannot be negative.")
     private int availableCopies;

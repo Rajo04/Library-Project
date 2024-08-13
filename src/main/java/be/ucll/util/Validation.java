@@ -10,57 +10,58 @@ public interface Validation {
     }
 
     static void validateNonEmptyString(String value, String message) {
-        if(value == null || value.isBlank()) {
+        if (value == null || value.isBlank()) {
             throwDomainException(message);
         }
     }
 
     static void validateNegativeNumber(int number, String message) {
-        if(number < 0) {
+        if (number < 0) {
             throwDomainException(message);
         }
     }
 
     static void validatePublicationYear(int year, String message) {
-        if(year < 0 || year > LocalDate.now().getYear()) {
+        if (year > LocalDate.now().getYear()) {
             throwDomainException(message);
         }
     }
 
     static void validateAge(int age, String message) {
-        if(age < 0 || age > 101) {
+        if (age < 0 || age > 101) {
             throwDomainException(message);
         }
     }
 
     static void validateEmail(String email, String message) {
-        if(!email.contains("@") || !email.contains(".")) {
+        if (!email.contains("@") || !email.contains(".")) {
             throwDomainException(message);
         }
     }
 
     static void validatePassword(String password, String message) {
-        if(password.length() < 8) {
+        if (password.length() < 8) {
             throwDomainException(message);
         }
     }
 
     static void validateIsbn(String isbn, String message) {
-        if(isbn == null || isbn.isBlank()) {
+        if (isbn == null || isbn.isBlank()) {
             throwDomainException(message);
-        } 
+        }
         isbn = isbn.replaceAll("-", "");
-        if(isbn.length() != 13) {
+        if (isbn.length() != 13) {
             throwDomainException(message);
         }
     }
 
     static void validateIssn(String issn, String message) {
-        if(issn == null || issn.isBlank()) {
+        if (issn == null || issn.isBlank()) {
             throwDomainException(message);
-        } 
+        }
         issn = issn.replaceAll("-", "");
-        if(issn.length() != 8) {
-            throwDomainException(message);        }
+        if (issn.length() != 8) {
+            throwDomainException(message);
+        }
     }
 }
