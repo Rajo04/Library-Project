@@ -4,14 +4,34 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
+import java.util.Set;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import be.ucll.model.Book;
 import be.ucll.model.DomainException;
 import be.ucll.model.Magazine;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 
 public class BookTest {
+    private static ValidatorFactory validatorFactory;
+    private static Validator validator;
+
+    @BeforeAll
+    static void init(){
+        validatorFactory = Validation.buildDefaultValidatorFactory();
+        validator = validatorFactory.getValidator();
+    }
+
+    @AfterAll
+    static void tearDown(){
+        validatorFactory.close();
+    }
 
     @Test
     public void givenValidValues_whenCreatingBook_thenBookIsCreated() {
@@ -58,17 +78,26 @@ public class BookTest {
     @Test
     public void givenTooShortISBN_whenCreatingBook_thenErrorThrown() {
         String tooShortISBN = "456465544512";
-        assertThrows(DomainException.class,
-        () -> new Book("Vikings", "Arthur", tooShortISBN, 2010, 10),
-        "ISBN is required to have 13 digits.");
+        Book book = new Book("Vikings", "Arthur", tooShortISBN, 2010, 10);
+
+        Set<ConstraintViolation<Book>> violations = validator.validate(book);
+
+        assertEquals(1, violations.size());
+        var violation = violations.iterator().next();
+        assertEquals("ISBN is required to have 13 digits and cannot be empty.", violation.getMessage());
     }
 
     @Test
     public void givenTooLongISBN_whenCreatingBook_thenErrorThrown() {
         String tooLongISBN = "45646554451255";
-        assertThrows(DomainException.class,
-        () -> new Book("Vikings", "Arthur", tooLongISBN, 2010, 10),
-        "ISBN is required to have 13 digits.");
+
+        Book book = new Book("Vikings", "Arthur", tooLongISBN, 2010, 10);
+
+        Set<ConstraintViolation<Book>> violations = validator.validate(book);
+
+        assertEquals(1, violations.size());
+        var violation = violations.iterator().next();
+        assertEquals("ISBN is required to have 13 digits and cannot be empty.", violation.getMessage());
     }
 
     @Test

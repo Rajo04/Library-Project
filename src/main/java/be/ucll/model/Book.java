@@ -4,13 +4,15 @@ import static be.ucll.util.Validation.*;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class Book extends Publication {
     @NotBlank(message = "Author is required.")
     private String author;
-    @Size(min = 13, max = 13, message = "ISBN is required to have 13 digits and cannot be empty.")
-    @NotBlank(message = "ISBN is required to have 13 digits and cannot be emtpy.")
+    @Pattern(regexp = "^(?:\\d[-\\s]*){12}\\d$", message = "ISBN is required to have 13 digits and cannot be empty.")
+    // @Size(min = 13, max = 13, message = "ISBN is required to have 13 digits and cannot be empty.")
+    // @NotBlank(message = "ISBN is required to have 13 digits and cannot be emtpy.")
     private String isbn;
 
     public Book(String title, String author, String isbn, int publicationYear, int availableCopies) {
