@@ -146,6 +146,13 @@ public class UserIntegrationTest {
                                                                           """);
         }
 
+        private void stringFormatDemo(){
+                String fName = "James";
+
+                String sentence1 = "Hello, my name is " + fName + ", and I really like my name " + fName + " because it sounds a lot like " + fName;
+                String sentence2 = String.format("Hello, my name is %s, and I really like my name %s because it sounds like %s.", fName, fName, fName);
+        }
+
         @Test
         public void givenUserEmailOfJohnDoe_whenGetLoansByEmail_thenCorrectLoansForEmailAreReturned() {
                 String startDateFirstLoanOfJohn = LocalDate.now().minusDays(2).toString();
@@ -160,10 +167,10 @@ public class UserIntegrationTest {
                 webTestClient.get().uri("/users/john.doe@ucll.be/loans").exchange()
                                 .expectStatus().isOk()
                                 .expectBody().json(
-                                                """
+                                                String.format("""
                                                                 [{
-                                                                "startDate": """ + startDateFirstLoanOfJohn + """
-                                                                "endDate": """ + endDateFirstLoanOfJohn + """
+                                                                "startDate": %s,
+                                                                "endDate": %s,
                                                                   "user": {
                                                                     "name": "John Doe",
                                                                     "age": 56,
@@ -182,7 +189,7 @@ public class UserIntegrationTest {
                                                                   "active": false
                                                                 },
                                                                 {
-                                                                  "startDate": """ + startDateSecondLoanOfJohn + """
+                                                                  "startDate": %s,
                                                                   "endDate": null,
                                                                   "user": {
                                                                     "name": "John Doe",
@@ -201,7 +208,7 @@ public class UserIntegrationTest {
                                                                   ],
                                                                   "active": true
                                                                 }]
-                                                                """);
+                                                                """, startDateFirstLoanOfJohn, endDateFirstLoanOfJohn, startDateSecondLoanOfJohn));
         }
 
         @Test // TODO: Wees consistent in naamgeving (elders heb je dat creatingUser genoemd,
