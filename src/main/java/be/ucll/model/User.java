@@ -2,14 +2,22 @@ package be.ucll.model;
 
 import static be.ucll.util.Validation.*;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class User {
+    @NotBlank(message = "Name is required.")
     private String name;
+    @Size(min = 0, max = 101, message = "Age must be a positive integer between 0 and 101.")
     private int age;
+    @Email(message = "E-mail must be a valid email format")
     private String email;
+    @Min(value = 8, message = "Password must be at least 8 characters long.")
     private String password;
-    
-    
-    public User(String name, int age, String email, String password){
+
+    public User(String name, int age, String email, String password) {
         setName(name);
         setAge(age);
         setEmail(email);
@@ -21,7 +29,6 @@ public class User {
     }
 
     public void setName(String name) {
-        validateNonEmptyString(name, "Name is required.");
         this.name = name;
     }
 
@@ -30,7 +37,6 @@ public class User {
     }
 
     public void setAge(int age) {
-        validateAge(age, "Age must be a positive integer between 0 and 101.");
         this.age = age;
     }
 
@@ -39,19 +45,17 @@ public class User {
     }
 
     public void setEmail(String email) {
-        if(getEmail() != null && !email.equals(getEmail())) {
+        if (getEmail() != null && !email.equals(getEmail())) {
             throw new DomainException("Email cannot be changed.");
         }
-        validateEmail(email, "E-mail must be a valid email format");
         this.email = email;
     }
 
     public String getPassword() {
         return password;
     }
-    
+
     public void setPassword(String password) {
-        validatePassword(password, "Password must be at least 8 characters long.");
         this.password = password;
     }
 

@@ -3,23 +3,28 @@ package be.ucll.model;
 import static be.ucll.util.Validation.validateIssn;
 import static be.ucll.util.Validation.validateNonEmptyString;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class Magazine extends Publication {
+    @NotBlank(message = "Editor is required.")
     private String editor;
+    @Size(min = 8, max = 8, message = "issn has to be exactly 8 characters long and is required.")
+    @NotBlank(message = "issn has to be exactly 8 characters long and is required.")
     private String issn;
-    
+
     public Magazine(String title, String editor, String issn, int publicationYear, int availableCopies) {
         super(title, publicationYear, availableCopies);
         setEditor(editor);
         setIssn(issn);
     }
 
-
     public String getEditor() {
         return editor;
     }
-    
+
     public void setEditor(String editor) {
-        validateNonEmptyString(editor, "Editor is required.");
         this.editor = editor;
     }
 
@@ -28,10 +33,8 @@ public class Magazine extends Publication {
     }
 
     public void setIssn(String issn) {
-        validateIssn(issn, "issn has to be exactly 8 characters long and is required.");
         this.issn = issn;
     }
-
 
     @Override
     public String toString() {
@@ -40,7 +43,6 @@ public class Magazine extends Publication {
                 + "]";
     }
 
-
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -48,7 +50,6 @@ public class Magazine extends Publication {
         result = prime * result + ((issn == null) ? 0 : issn.hashCode());
         return result;
     }
-
 
     @Override
     public boolean equals(Object obj) {

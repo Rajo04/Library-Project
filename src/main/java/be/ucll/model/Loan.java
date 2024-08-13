@@ -6,8 +6,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 import be.ucll.repository.LoanRepository;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 
 public class Loan {
+    @NotNull(message = "Start date is required.")
+    @PastOrPresent(message = "Start date cannnot be in the future.")
     private LocalDate startDate;
     private LocalDate endDate;
     private User user;

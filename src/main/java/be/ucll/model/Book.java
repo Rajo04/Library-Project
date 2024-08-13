@@ -2,23 +2,28 @@ package be.ucll.model;
 
 import static be.ucll.util.Validation.*;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class Book extends Publication {
+    @NotBlank(message = "Author is required.")
     private String author;
+    @Size(min = 13, max = 13, message = "ISBN is required to have 13 digits and cannot be empty.")
+    @NotBlank(message = "ISBN is required to have 13 digits and cannot be emtpy.")
     private String isbn;
 
-    public Book(String title, String author, String isbn, int publicationYear, int availableCopies){
+    public Book(String title, String author, String isbn, int publicationYear, int availableCopies) {
         super(title, publicationYear, availableCopies);
         setAuthor(author);
         setIsbn(isbn);
     }
-
 
     public String getAuthor() {
         return author;
     }
 
     public void setAuthor(String author) {
-        validateNonEmptyString(author, "Author is required.");
         this.author = author;
     }
 
@@ -27,10 +32,8 @@ public class Book extends Publication {
     }
 
     public void setIsbn(String isbn) {
-        validateIsbn(isbn, "ISBN is required to have 13 digits and cannot be empty.");
         this.isbn = isbn;
     }
-
 
     @Override
     public String toString() {
@@ -45,7 +48,6 @@ public class Book extends Publication {
         result = prime * result + ((isbn == null) ? 0 : isbn.hashCode());
         return result;
     }
-
 
     @Override
     public boolean equals(Object obj) {

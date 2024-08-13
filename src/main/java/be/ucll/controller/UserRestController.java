@@ -8,6 +8,7 @@ import be.ucll.model.ServiceException;
 import be.ucll.model.User;
 import be.ucll.service.LoanService;
 import be.ucll.service.UserService;
+import jakarta.validation.Valid;
 
 import java.util.List;
 import java.util.Map;
@@ -60,12 +61,12 @@ public class UserRestController {
     }
 
     @PostMapping
-    public User addUser(@RequestBody User user) {
+    public User addUser(@Valid @RequestBody User user) {
         return userService.addUser(user);
     }
 
     @PutMapping("/{email}")
-    public User updateUserByEmail(@PathVariable String email, @RequestBody User user) {
+    public User updateUserByEmail(@PathVariable String email, @Valid @RequestBody User user) {
         return userService.updateUserByEmail(email, user);
     }
 
