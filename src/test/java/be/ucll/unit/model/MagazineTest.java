@@ -9,6 +9,8 @@ import java.util.Set;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.cglib.core.Local;
 
 import be.ucll.model.DomainException;
@@ -33,18 +35,19 @@ public class MagazineTest {
         validatorFactory.close();
     }
 
-    @Test
-    public void givenValidValues_whenCreatingMagazine_thenMagazineIsCreated() {
-        Magazine magazine = new Magazine("Flair", "Jan", "03785955", 2011, 10);
+    @ParameterizedTest
+    @ValueSource(strings = {"03785955", "0378-5955"})
+    public void givenValidValues_whenCreatingMagazine_thenMagazineIsCreated(String validIssn) {
+        Magazine magazine = new Magazine("Flair", "Jan", validIssn, 2011, 10);
 
         assertEquals("Flair", magazine.getTitle());
         assertEquals("Jan", magazine.getEditor());
-        assertEquals("03785955", magazine.getIssn());
+        assertEquals(validIssn, magazine.getIssn());
         assertEquals(2011, magazine.getPublicationYear());
     }
 
     @Test
-    public void givenInvalidTitle_whenCreatingMagazine_thenErrorThrown() {
+    public void givenBlankTitle_whenCreatingMagazine_thenErrorThrown() {
         String invalidTitle = "   ";
         Magazine magazine = new Magazine(invalidTitle, "Jan", "03785955", 2011, 10);
 
@@ -56,7 +59,7 @@ public class MagazineTest {
     }
 
     @Test
-    public void givenEmptyTitle_whenCreatingMagazine_thenErrorThrown() {
+    public void givenNullTitle_whenCreatingMagazine_thenErrorThrown() {
         String emptyTitle = null;
         Magazine magazine = new Magazine(emptyTitle, "Jan", "03785955", 2011, 10);
 
@@ -68,7 +71,7 @@ public class MagazineTest {
     }
 
     @Test
-    public void givenInvalidEditor_whenCreatingMagazine_thenErrorThrown() {
+    public void givenBlankEditor_whenCreatingMagazine_thenErrorThrown() {
         String invalidEditor = " ";
         Magazine magazine = new Magazine("Flair", invalidEditor, "03785955", 2011, 10);
 
@@ -80,7 +83,7 @@ public class MagazineTest {
     }
 
     @Test
-    public void givenEmptyEditor_whenCreatingMagazine_thenErrorThrown() {
+    public void givenNullEditor_whenCreatingMagazine_thenErrorThrown() {
         String emptyEditor = null;
         Magazine magazine = new Magazine("Flair", emptyEditor, "03785955", 2011, 10);
 
@@ -92,19 +95,19 @@ public class MagazineTest {
     }
 
     @Test
-    public void givenInvalidISSN_whenCreatingMagazine_thenErrorThrown() {
+    public void givenBlankISSN_whenCreatingMagazine_thenErrorThrown() {
         String invalidISSN = " ";
         Magazine magazine = new Magazine("Flair", "Jan", invalidISSN, 2011, 10);
 
         Set<ConstraintViolation<Magazine>> violations = validator.validate(magazine);
 
-        assertEquals(1, violations.size());
+        assertEquals(2, violations.size());
         var violation = violations.iterator().next();
         assertEquals("ISSN has to be exactly 8 characters long and is required.", violation.getMessage());
     }
 
     @Test
-    public void givenEmptyISSN_whenCreatingMagazine_thenErrorThrown() {
+    public void givenNullISSN_whenCreatingMagazine_thenErrorThrown() {
         String emptyISSN = null;
         Magazine magazine = new Magazine("Flair", "Jan", emptyISSN, 2011, 10);
 
@@ -145,7 +148,7 @@ public class MagazineTest {
         Magazine magazine = new Magazine("Flair", "Jan", "03785955", negativePublicationYear, 10);
 
         Set<ConstraintViolation<Magazine>> violations = validator.validate(magazine);
-
+        // TODO: Bericht moet correct zijn (raadpleeg de user story EERST)
         assertEquals(1, violations.size());
         var violation = violations.iterator().next();
         assertEquals("ISSN must be a positive integer.", violation.getMessage());

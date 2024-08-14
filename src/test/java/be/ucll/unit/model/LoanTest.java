@@ -26,7 +26,7 @@ public class LoanTest {
     private final int STARTING_NR_OF_COPIES = 10;
 
     @BeforeEach
-    void init(){
+    void init() {
         LocalDate today = LocalDate.now();
         LocalDate yesterday = today.minusDays(1);
 
@@ -47,7 +47,7 @@ public class LoanTest {
         assertEquals(validStartDate, loan.getStartDate());
         assertEquals(validEndDate, loan.getEndDate());
         assertEquals(validUser, loan.getUser());
-        assertIterableEquals(validPublications, loan.getPublications());    
+        assertIterableEquals(validPublications, loan.getPublications());
 
         for (Publication publication : loan.getPublications()) {
             assertEquals(STARTING_NR_OF_COPIES - 1, publication.getAvailableCopies());
@@ -70,64 +70,64 @@ public class LoanTest {
     @Test
     public void givenStartDateNull_whenCreatingLoan_thenErrorWithMessageThrown() {
         LocalDate nullStartDate = null;
-        
+        // TODO: Vervang met ConstraintViolations en assertEquals(1, violations.size());
         assertThrows(DomainException.class,
-        () -> new Loan(nullStartDate, validEndDate, validUser, validPublications),
-        "Start date is required.");
+                () -> new Loan(nullStartDate, validEndDate, validUser, validPublications),
+                "Start date is required.");
     }
 
     @Test
     public void givenFutureStartDate_whenCreatingLoan_thenErrorWithMessageThrown() {
         LocalDate futureStartDate = LocalDate.now().plusDays(1);
-        
+        // TODO: Vervang met ConstraintViolations en assertEquals(1, violations.size());
         assertThrows(DomainException.class,
-        () -> new Loan(futureStartDate, validEndDate, validUser, validPublications),
-        "Start date cannot be in the future.");
+                () -> new Loan(futureStartDate, validEndDate, validUser, validPublications),
+                "Start date cannot be in the future.");
     }
 
     @Test
     public void givenEndDateBeforeStartDate_whenCreatingLoan_thenErrorWithMessageThrown() {
         LocalDate endDateBeforeStartDate = validStartDate.minusDays(1);
-        
+
         assertThrows(DomainException.class,
-        () -> new Loan(validStartDate, endDateBeforeStartDate, validUser, validPublications),
-        "Start date cannot be after end date.");
+                () -> new Loan(validStartDate, endDateBeforeStartDate, validUser, validPublications),
+                "Start date cannot be after end date.");
     }
 
     @Test
     public void givenEndDateInFuture_whenCreatingLoan_thenErrorWithMessageThrown() {
         LocalDate futureEndDate = LocalDate.now().plusDays(1);
-        
+
         assertThrows(DomainException.class,
-        () -> new Loan(validStartDate, futureEndDate, validUser, validPublications),
-        "End date cannot be in the future.");
+                () -> new Loan(validStartDate, futureEndDate, validUser, validPublications),
+                "End date cannot be in the future.");
     }
 
     @Test
     public void givenUserNull_whenCreatingLoan_thenErrorWithMessageThrown() {
         User nullUser = null;
-        
+        // TODO: Vervang met ConstraintViolations en assertEquals(1, violations.size());
         assertThrows(DomainException.class,
-        () -> new Loan(validStartDate, validEndDate, nullUser, validPublications),
-        "User is required.");
+                () -> new Loan(validStartDate, validEndDate, nullUser, validPublications),
+                "User is required.");
     }
 
     @Test
     public void givenPublicationsNull_whenCreatingLoan_thenErrorWithMessageIsThrown() {
         List<Publication> nullPublications = null;
-        
+        // TODO: Vervang met ConstraintViolations en assertEquals(2?, violations.size());
         assertThrows(DomainException.class,
-        () -> new Loan(validStartDate, validEndDate, validUser, nullPublications),
-        "Publications are required.");
+                () -> new Loan(validStartDate, validEndDate, validUser, nullPublications),
+                "Publications are required.");
     }
 
     @Test
     public void givenPublicationsEmpty_whenCreatingLoan_thenErrorWithMessageIsThrown() {
         List<Publication> emptyPublications = new ArrayList<>();
-        
+        // TODO: Vervang met ConstraintViolations en assertEquals(1, violations.size());
         assertThrows(DomainException.class,
-        () -> new Loan(validStartDate, validEndDate, validUser, emptyPublications),
-        "Publications are required.");
+                () -> new Loan(validStartDate, validEndDate, validUser, emptyPublications),
+                "Publications are required.");
     }
 
     @Test
@@ -136,7 +136,7 @@ public class LoanTest {
         unavailablePublications.add(new Book("Vikings", "Arthur", "9783161484100", 2010, 0));
 
         assertThrows(DomainException.class,
-        () -> new Loan(validStartDate, validEndDate, validUser, unavailablePublications),
-        "Unable to lend publications, no available copies left for Vikings.");
+                () -> new Loan(validStartDate, validEndDate, validUser, unavailablePublications),
+                "Unable to lend publications, no available copies left for Vikings.");
     }
 }
