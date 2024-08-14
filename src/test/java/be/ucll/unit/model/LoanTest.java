@@ -1,9 +1,5 @@
 package be.ucll.unit.model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertIterableEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +20,8 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LoanTest {
     private LocalDate validStartDate;
@@ -62,10 +60,10 @@ public class LoanTest {
 
     @Test
     public void givenValidValues_whenCreatingLoan_thenLoanIsCreatedAndCopiesDecremented() {
-        Loan loan = new Loan(validStartDate, validEndDate, validUser, validPublications);
+        Loan loan = new Loan(validStartDate, null, validUser, validPublications);
 
         assertEquals(validStartDate, loan.getStartDate());
-        assertEquals(validEndDate, loan.getEndDate());
+        assertNull(loan.getEndDate());
         assertEquals(validUser, loan.getUser());
         assertIterableEquals(validPublications, loan.getPublications());
 
@@ -76,7 +74,7 @@ public class LoanTest {
 
     @Test
     public void givenValidValues_whenReturningLoan_thenCopiesIncrementedAndEndDateSetToToday() {
-        Loan loan = new Loan(validStartDate, validEndDate, validUser, validPublications);
+        Loan loan = new Loan(validStartDate, null, validUser, validPublications);
         LocalDate today = LocalDate.now();
 
         loan.returnPublications();
@@ -102,7 +100,7 @@ public class LoanTest {
     @Test
     public void givenFutureStartDate_whenCreatingLoan_thenErrorWithMessageThrown() {
         LocalDate futureStartDate = LocalDate.now().plusDays(1);
-        Loan loan = new Loan(futureStartDate, validEndDate, validUser, validPublications);
+        Loan loan = new Loan(futureStartDate, null, validUser, validPublications);
 
         Set<ConstraintViolation<Loan>> violations = validator.validate(loan);
 
@@ -171,7 +169,7 @@ public class LoanTest {
         unavailablePublications.add(new Book("Vikings", "Arthur", "9783161484100", 2010, 0));
 
         assertThrows(DomainException.class,
-                () -> new Loan(validStartDate, validEndDate, validUser, unavailablePublications),
+                () -> new Loan(validStartDate, null, validUser, unavailablePublications),
                 "Unable to lend publications, no available copies left for Vikings.");
     }
 }

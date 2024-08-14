@@ -42,7 +42,7 @@ public class Loan {
 
     public void setEndDate(LocalDate endDate) {
         if (endDate != null) {
-            if (endDate.isBefore(startDate)) {
+            if (startDate != null && endDate.isBefore(startDate)) {
                 throwDomainException("Start date cannot be after end date.");
             }
             if (endDate.isAfter(LocalDate.now())) {
