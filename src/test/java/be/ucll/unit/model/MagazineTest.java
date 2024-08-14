@@ -9,7 +9,6 @@ import java.util.Set;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.cglib.core.Local;
 
 import be.ucll.model.DomainException;
 import be.ucll.model.Magazine;
