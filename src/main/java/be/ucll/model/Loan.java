@@ -5,14 +5,13 @@ import static be.ucll.util.Validation.throwDomainException;
 import java.time.LocalDate;
 import java.util.List;
 
-import be.ucll.repository.LoanRepository;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 
 public class Loan {
     @NotNull(message = "Start date is required.")
-    @PastOrPresent(message = "Start date cannnot be in the future.")
+    @PastOrPresent(message = "Start date cannot be in the future.")
     private LocalDate startDate;
     private LocalDate endDate;
     @NotNull(message = "User is required.")

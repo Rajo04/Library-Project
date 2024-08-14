@@ -2,6 +2,8 @@ package be.ucll.model;
 
 import static be.ucll.util.Validation.*;
 
+import org.hibernate.validator.constraints.Range;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -12,12 +14,12 @@ public class User {
     @NotBlank(message = "Name is required.")
     private String name;
     // TODO: Dubbel check dat max geen 100 moet zijn
-    @Size(min = 0, max = 101, message = "Age must be a positive integer between 0 and 101.")
+    @Range(min = 1, max = 100, message = "Age must be a positive integer between 0 and 101.")
     private int age;
     @Email(message = "E-mail must be a valid email format")
     @NotNull(message = "E-mail must be a valid email format")
     private String email;
-    @Min(value = 8, message = "Password must be at least 8 characters long.")
+    @Size(min = 8, message = "Password must be at least 8 characters long.")
     @NotNull(message = "Password must be at least 8 characters long.")
     private String password;
 
