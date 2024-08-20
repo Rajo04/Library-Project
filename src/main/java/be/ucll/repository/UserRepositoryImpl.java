@@ -31,44 +31,26 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<User> findUsersByAgeRange(int min, int max) {
-        List<User> usersWithinAgeRange = new ArrayList<>();
-        for (User user : users) {
-            if (min <= user.getAge() && user.getAge() <= max) {
-                usersWithinAgeRange.add(user);
-            }
-        }
-        return usersWithinAgeRange;
+        return jdbcTemplate.query("SELECT * FROM users WHERE ? <= age <= ?",
+                new UserRowMapper(),
+                min, max);
     }
 
     @Override
     public List<User> usersByName(String name) {
-        List<User> filteredByName = new ArrayList<>();
-        for (User user : users) {
-            if (user.getName().toLowerCase().contains(name.toLowerCase())) {
-                filteredByName.add(user);
-            }
-        }
-        return filteredByName;
+        return jdbcTemplate.query("SELECT * FROM users WHERE name = ?",
+                new UserRowMapper(),
+                name);
     }
 
     @Override
     public boolean userExists(String email) {
-        for (User user : users) {
-            if (user.getEmail().equals(email)) {
-                return true;
-            }
-        }
-        return false;
+        return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM users WHERE email = ?", Integer.class, email) > 0;
     }
 
     @Override
     public User findUserByEmail(String email) {
-        for (User user : users) {
-            if (user.getEmail().equals(email)) {
-                return user;
-            }
-        }
-        return null;
+        return jdbcTemplate.queryForObject("SELECT * FROM users WHERE email = ?", new UserRowMapper(), email);
     }
 
     @Override
