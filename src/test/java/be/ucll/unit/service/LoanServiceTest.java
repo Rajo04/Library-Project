@@ -15,7 +15,7 @@ import be.ucll.model.Loan;
 import be.ucll.model.ServiceException;
 import be.ucll.repository.LoanRepository;
 import be.ucll.repository.PublicationRepository;
-import be.ucll.repository.UserRepository;
+import be.ucll.repository.UserRepositoryImpl;
 import be.ucll.service.LoanService;
 
 public class LoanServiceTest {
@@ -23,7 +23,7 @@ public class LoanServiceTest {
 
     @BeforeEach
     void init() {
-        UserRepository userRepository = new UserRepository();
+        UserRepositoryImpl userRepository = new UserRepositoryImpl();
         this.loanService = new LoanService(new LoanRepository(userRepository, new PublicationRepository()),
                 userRepository);
     }

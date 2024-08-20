@@ -24,8 +24,13 @@ public class LoanRepository {
     }
 
     private void initLoans() {
-        User user1 = this.userRepository.users.get(0);
-        User user2 = this.userRepository.users.get(1);
+        List<User> users = new ArrayList<>(List.of(
+                new User("John Doe", 56, "john.doe@ucll.be", "john1234"),
+                new User("Jane Toe", 30, "jane.toe@ucll.be", "jane1234"),
+                new User("Jack Doe", 5, "jack.doe@ucll.be", "jack1234"),
+                new User("Sarah Doe", 4, "sarah.doe@ucll.be", "sarah1234")));
+        User user1 = users.get(0);
+        User user2 = users.get(1);
         Publication pub1 = this.publicationRepository.books.get(0);
         Publication pub2 = this.publicationRepository.magazines.get(0);
         LocalDate today = LocalDate.now();

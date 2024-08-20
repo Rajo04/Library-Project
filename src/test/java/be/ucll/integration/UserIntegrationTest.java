@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
@@ -16,7 +15,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import be.ucll.model.User;
-import be.ucll.repository.UserRepository;
+import be.ucll.repository.UserRepositoryImpl;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient
@@ -26,7 +25,7 @@ public class UserIntegrationTest {
         private WebTestClient webTestClient;
 
         @Autowired
-        private UserRepository userRepository;
+        private UserRepositoryImpl userRepository;
 
         // Note: userRepository.resetRepositoryData() ❌ this is NOT a concern of the
         // user repository, only of the test logic, this method should be in the test

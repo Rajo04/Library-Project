@@ -2,12 +2,13 @@ package be.ucll.service;
 
 import java.util.List;
 
+import be.ucll.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import be.ucll.model.Loan;
 import be.ucll.model.ServiceException;
 import be.ucll.repository.LoanRepository;
-import be.ucll.repository.UserRepository;
+import be.ucll.repository.UserRepositoryImpl;
 
 @Service
 public class LoanService {

@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import be.ucll.unit.repository.UserRepositoryTestImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,15 +21,15 @@ import be.ucll.service.LoanService;
 import be.ucll.service.UserService;
 import be.ucll.repository.LoanRepository;
 import be.ucll.repository.PublicationRepository;
-import be.ucll.repository.UserRepository;
+import be.ucll.repository.UserRepositoryImpl;
 
 public class UserServiceTest {
     private UserService userService;
 
     @BeforeEach
     void init() {
-        UserRepository  userRepository = new UserRepository();
-        this.userService = new UserService(new UserRepository(), new LoanService(new LoanRepository(userRepository, new PublicationRepository()), userRepository));
+        UserRepositoryTestImpl userRepository = new UserRepositoryTestImpl();
+        this.userService = new UserService(new UserRepositoryTestImpl(), new LoanService(new LoanRepository(userRepository, new PublicationRepository()), userRepository));
     }
 
     @Test
