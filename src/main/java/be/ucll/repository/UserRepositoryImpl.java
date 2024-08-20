@@ -55,29 +55,26 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User addUser(User user) {
-        users.add(user);
+        jdbcTemplate.update("INSERT INTO users (name, age, email, password) VALUES (?, ?, ?, ?)",
+                user.getName(),
+                user.getAge(),
+                user.getEmail(),
+                user.getPassword());
         return user;
     }
 
     @Override
     public User updateUserByEmail(String email, User user) {
-        User fetchedUser = findUserByEmail(email);
-        fetchedUser.setEmail(user.getEmail());
-        fetchedUser.setName(user.getName());
-        fetchedUser.setAge(user.getAge());
-        fetchedUser.setPassword(user.getPassword());
-        return fetchedUser;
+        jdbcTemplate.update("UPDATE users SET name = ?, age = ?, password = ? WHERE email = ?",
+                user.getName(),
+                user.getAge(),
+                user.getPassword(),
+                email);
+        return findUserByEmail(email);
     }
 
     @Override
     public void deleteUserByEmail(String email) {
-        for (int i = 0; i < users.size(); i++) {
-            User user = users.get(i);
-
-            if (user.getEmail().equals(email)) {
-                users.remove(user);
-                break;
-            }
-        }
+        jdbcTemplate.update("DELETE FROM users WHERE email = ?", email);
     }
 }
