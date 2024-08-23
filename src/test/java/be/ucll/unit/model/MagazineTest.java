@@ -114,7 +114,7 @@ public class MagazineTest {
 
         assertEquals(1, violations.size());
         var violation = violations.iterator().next();
-        assertEquals("ISSN is required.", violation.getMessage());
+        assertEquals("ISSN has to be exactly 8 characters long and is required.", violation.getMessage());
     }
 
     @Test

@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Pattern;
 public class Magazine extends Publication {
     @NotBlank(message = "Editor is required.")
     private String editor;
-    @NotBlank(message = "ISSN is required.")
+    @NotBlank(message = "ISSN has to be exactly 8 characters long and is required.")
     @Pattern(regexp = "^(?:\\d[-\\s]*){7}\\d$", message = "ISSN has to be exactly 8 characters long and is required.")
     // @Size(min = 8, max = 8, message = "issn has to be exactly 8 characters long
     // and is required.")

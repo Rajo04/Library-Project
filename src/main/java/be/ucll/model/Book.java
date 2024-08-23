@@ -11,8 +11,9 @@ public class Book extends Publication {
     @NotBlank(message = "Author is required.")
     private String author;
     @Pattern(regexp = "^(?:\\d[-\\s]*){12}\\d$", message = "ISBN is required to have 13 digits and cannot be empty.")
-    // @Size(min = 13, max = 13, message = "ISBN is required to have 13 digits and cannot be empty.")
-    // @NotBlank(message = "ISBN is required to have 13 digits and cannot be emtpy.")
+    // @Size(min = 13, max = 13, message = "ISBN is required to have 13 digits and
+    // cannot be empty.")
+    @NotBlank(message = "ISBN is required to have 13 digits and cannot be empty.")
     private String isbn;
 
     public Book(String title, String author, String isbn, int publicationYear, int availableCopies) {

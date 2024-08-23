@@ -122,9 +122,9 @@ public class BookTest {
 
         Set<ConstraintViolation<Book>> violations = validator.validate(book);
 
-        assertEquals(1, violations.size());
+        assertEquals(2, violations.size());
         var violation = violations.iterator().next();
-        assertEquals("ISBN is required.", violation.getMessage());
+        assertEquals("ISBN is required to have 13 digits and cannot be empty.", violation.getMessage());
     }
 
     @Test
@@ -136,7 +136,7 @@ public class BookTest {
 
         assertEquals(1, violations.size());
         var violation = violations.iterator().next();
-        assertEquals("ISBN is required.", violation.getMessage());
+        assertEquals("ISBN is required to have 13 digits and cannot be empty.", violation.getMessage());
     }
 
     @Test
