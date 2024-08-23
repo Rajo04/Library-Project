@@ -4,16 +4,25 @@ import static be.ucll.util.Validation.*;
 
 import org.hibernate.validator.constraints.Range;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id; // Wrapper class is better because it can be null unlike primitive 0 could be a
+                     // valid id
     @NotBlank(message = "Name is required.")
     private String name;
-    // TODO: Dubbel check dat max geen 100 moet zijn
     @Range(min = 1, max = 100, message = "Age must be a positive integer between 0 and 101.")
     private int age;
     @Email(message = "E-mail must be a valid email format")
@@ -23,11 +32,23 @@ public class User {
     @NotNull(message = "Password must be at least 8 characters long.")
     private String password;
 
+    protected User() {
+
+    }
+
     public User(String name, int age, String email, String password) {
         setName(name);
         setAge(age);
         setEmail(email);
         setPassword(password);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -104,4 +125,5 @@ public class User {
             return false;
         return true;
     }
+
 }

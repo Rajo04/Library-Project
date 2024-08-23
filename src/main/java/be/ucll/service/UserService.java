@@ -19,11 +19,11 @@ public class UserService {
     }
 
     public List<User> getAllUsers() {
-        return userRepository.allUsers();
+        return userRepository.findAll();
     }
 
     public List<User> getAllAdultUsers() {
-        return userRepository.usersOlderThan(17);
+        return userRepository.findByAgeGreaterThan(17);
     }
 
     public List<User> getUsersByAgeRange(int min, int max) {
@@ -33,11 +33,11 @@ public class UserService {
         if (min < 0 || max > 150) {
             throw new ServiceException("Invalid age range. Age must be between 0 and 150.");
         }
-        return userRepository.findUsersByAgeRange(min, max);
+        return userRepository.findByAgeBetween(min, max);
     }
 
     public List<User> getUsersByName(String name) {
-        List<User> usersWithName = userRepository.usersByName(name);
+        List<User> usersWithName = userRepository.findByName(name);
 
         if (usersWithName.size() == 0) {
             throw new ServiceException("No users with that name found.");
@@ -46,22 +46,23 @@ public class UserService {
     }
 
     public User addUser(User user) {
-        if (userRepository.userExists(user.getEmail())) {
+        if (userRepository.existByEmail(user.getEmail())) {
             throw new ServiceException("User already exists");
         }
-        return userRepository.addUser(user);
+        return userRepository.save(user);
     }
 
     public User updateUserByEmail(String email, User user) {
-        if (userRepository.findUserByEmail(email) == null) {
+        if (userRepository.existByEmail(email)) {
             throw new ServiceException("User does not exist.");
         }
-        return userRepository.updateUserByEmail(email, user);
+        return userRepository.save(user);
     }
 
     public String deleteUserByEmail(String email) {
         loanService.deleteLoansForUserByEmail(email);
-        userRepository.deleteUserByEmail(email);
+        User user = userRepository.findByEmail(email);
+        userRepository.deleteById(user.getId());
         return "User successfully deleted.";
     }
 }

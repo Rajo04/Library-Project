@@ -22,7 +22,7 @@ public class DbInitializer {
                 new User("Jack Doe", 5, "jack.doe@ucll.be", "jack1234"),
                 new User("Sarah Doe", 4, "sarah.doe@ucll.be", "sarah1234"));
         for (User user : users) {
-            userRepository.addUser(user);
+            userRepository.save(user);
         }
     }
 }

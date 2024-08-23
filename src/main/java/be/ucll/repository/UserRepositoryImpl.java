@@ -8,52 +8,52 @@ import org.springframework.stereotype.Repository;
 
 import be.ucll.model.User;
 
-@Repository
-public class UserRepositoryImpl implements UserRepository {
+// @Repository
+public class UserRepositoryImpl {
     private JdbcTemplate jdbcTemplate;
 
     public UserRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Override
+    // @Override
     public List<User> allUsers() {
         return jdbcTemplate.query("SELECT * FROM users",
                 new UserRowMapper());
     }
 
-    @Override
-    public List<User> usersOlderThan(int age) {
+    // @Override
+    public List<User> findByAgeGreaterThan(int age) {
         return jdbcTemplate.query("SELECT * FROM users WHERE age > ?",
                 new UserRowMapper(),
                 age);
     }
 
-    @Override
-    public List<User> findUsersByAgeRange(int min, int max) {
+    // @Override
+    public List<User> findByAgeBetween(int min, int max) {
         return jdbcTemplate.query("SELECT * FROM users WHERE ? <= age <= ?",
                 new UserRowMapper(),
                 min, max);
     }
 
-    @Override
-    public List<User> usersByName(String name) {
+    // @Override
+    public List<User> findByName(String name) {
         return jdbcTemplate.query("SELECT * FROM users WHERE name = ?",
                 new UserRowMapper(),
                 name);
     }
 
-    @Override
-    public boolean userExists(String email) {
+    // @Override
+    public boolean existByEmail(String email) {
         return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM users WHERE email = ?", Integer.class, email) > 0;
     }
 
-    @Override
-    public User findUserByEmail(String email) {
+    // @Override
+    public User findByEmail(String email) {
         return jdbcTemplate.queryForObject("SELECT * FROM users WHERE email = ?", new UserRowMapper(), email);
     }
 
-    @Override
+    // @Override
     public User addUser(User user) {
         jdbcTemplate.update("INSERT INTO users (name, age, email, password) VALUES (?, ?, ?, ?)",
                 user.getName(),
@@ -63,17 +63,17 @@ public class UserRepositoryImpl implements UserRepository {
         return user;
     }
 
-    @Override
+    // @Override
     public User updateUserByEmail(String email, User user) {
         jdbcTemplate.update("UPDATE users SET name = ?, age = ?, password = ? WHERE email = ?",
                 user.getName(),
                 user.getAge(),
                 user.getPassword(),
                 email);
-        return findUserByEmail(email);
+        return findByEmail(email);
     }
 
-    @Override
+    // @Override
     public void deleteUserByEmail(String email) {
         jdbcTemplate.update("DELETE FROM users WHERE email = ?", email);
     }

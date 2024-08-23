@@ -22,7 +22,7 @@ public class LoanService {
 
     public List<Loan> getLoansByUser(String email, boolean onlyActive) {
         // First checks if the user exists
-        if (!userRepository.userExists(email)) {
+        if (!userRepository.existByEmail(email)) {
             throw new ServiceException("User with that email does not exist");
         }
 
@@ -30,10 +30,10 @@ public class LoanService {
     }
 
     public String deleteLoansForUserByEmail(String email) {
-        if(userRepository.findUserByEmail(email) == null) {
+        if (userRepository.findByEmail(email) == null) {
             throw new ServiceException("User does not exist.");
         }
-        if(!loanRepository.findLoansByUser(email, true).isEmpty()) {
+        if (!loanRepository.findLoansByUser(email, true).isEmpty()) {
             throw new ServiceException("User has active loans.");
         }
         if (loanRepository.findLoansByUser(email, false).isEmpty()) {

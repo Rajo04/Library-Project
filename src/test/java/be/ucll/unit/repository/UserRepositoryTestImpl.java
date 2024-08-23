@@ -25,7 +25,7 @@ public class UserRepositoryTestImpl implements UserRepository {
     }
 
     @Override
-    public List<User> usersOlderThan(int age) {
+    public List<User> findByAgeGreaterThan(int age) {
         List<User> allAdultUsers = new ArrayList<>();
         for (User user : users) {
             if (user.getAge() > age) {
@@ -36,7 +36,7 @@ public class UserRepositoryTestImpl implements UserRepository {
     }
 
     @Override
-    public List<User> findUsersByAgeRange(int min, int max) {
+    public List<User> findByAgeBetween(int min, int max) {
         List<User> usersWithinAgeRange = new ArrayList<>();
         for (User user : users) {
             if (min <= user.getAge() && user.getAge() <= max) {
@@ -47,7 +47,7 @@ public class UserRepositoryTestImpl implements UserRepository {
     }
 
     @Override
-    public List<User> usersByName(String name) {
+    public List<User> findByName(String name) {
         List<User> filteredByName = new ArrayList<>();
         for (User user : users) {
             if (user.getName().toLowerCase().contains(name.toLowerCase())) {
@@ -58,7 +58,7 @@ public class UserRepositoryTestImpl implements UserRepository {
     }
 
     @Override
-    public boolean userExists(String email) {
+    public boolean existByEmail(String email) {
         for (User user : users) {
             if (user.getEmail().equals(email)) {
                 return true;
@@ -68,7 +68,7 @@ public class UserRepositoryTestImpl implements UserRepository {
     }
 
     @Override
-    public User findUserByEmail(String email) {
+    public User findByEmail(String email) {
         for (User user : users) {
             if (user.getEmail().equals(email)) {
                 return user;
@@ -85,7 +85,7 @@ public class UserRepositoryTestImpl implements UserRepository {
 
     @Override
     public User updateUserByEmail(String email, User user) {
-        User fetchedUser = findUserByEmail(email);
+        User fetchedUser = findByEmail(email);
         fetchedUser.setEmail(user.getEmail());
         fetchedUser.setName(user.getName());
         fetchedUser.setAge(user.getAge());

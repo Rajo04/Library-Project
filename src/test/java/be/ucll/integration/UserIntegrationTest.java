@@ -230,7 +230,7 @@ public class UserIntegrationTest {
                 }
                 """);
 
-    assertTrue(userRepository.userExists("peter.griffin@ucll.be"));
+    assertTrue(userRepository.existByEmail("peter.griffin@ucll.be"));
   }
 
   @Test
@@ -267,6 +267,6 @@ public class UserIntegrationTest {
     webTestClient.delete().uri("/users/jane.toe@ucll.be").exchange().expectStatus().isOk()
         .expectBody(String.class)
         .isEqualTo("User successfully deleted.");
-    assertFalse(userRepository.userExists("jane.toe@ucll.be"));
+    assertFalse(userRepository.existByEmail("jane.toe@ucll.be"));
   }
 }

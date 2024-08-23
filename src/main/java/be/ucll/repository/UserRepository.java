@@ -4,22 +4,29 @@ import be.ucll.model.User;
 
 import java.util.List;
 
-public interface UserRepository {
-    List<User> allUsers();
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-    List<User> usersOlderThan(int age);
+@Repository // Overbodig, JpaRepository erft over van Repository, deze zorgt al voor een
+            // @Repository-achtige registratie
+public interface UserRepository extends JpaRepository<User, Long> {
+    // List<User> allUsers(); //crud repository findAll method already does this
 
-    List<User> findUsersByAgeRange(int min, int max);
+    List<User> findByAgeGreaterThan(int age);
 
-    List<User> usersByName(String name);
+    List<User> findByAgeBetween(int min, int max);
 
-    boolean userExists(String email);
+    List<User> findByName(String name);
 
-    User findUserByEmail(String email);
+    boolean existByEmail(String email);
 
-    User addUser(User user);
+    User findByEmail(String email);
 
-    User updateUserByEmail(String email, User user);
+    // User addUser(User user); // crud repository save method already does this
 
-    void deleteUserByEmail(String email);
+    // User updateUserByEmail(String email, User user); // crud repository save
+    // method already does this
+
+    // void deleteUserByEmail(String email); // crud repository deletebyid method
+    // already does this
 }
