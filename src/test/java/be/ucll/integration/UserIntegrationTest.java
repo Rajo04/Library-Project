@@ -41,7 +41,7 @@ public class UserIntegrationTest {
   // }
 
   @BeforeEach
-  private void resetRepositoryData() {
+  void resetRepositoryData() {
     dbInitializer.init();
   }
 
