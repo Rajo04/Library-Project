@@ -1,18 +1,16 @@
 package be.ucll.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 
 import be.ucll.model.User;
 
 // @Repository
-public class UserRepositoryImpl {
+public class UserRepositoryJdbcImpl {
     private JdbcTemplate jdbcTemplate;
 
-    public UserRepositoryImpl(JdbcTemplate jdbcTemplate) {
+    public UserRepositoryJdbcImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

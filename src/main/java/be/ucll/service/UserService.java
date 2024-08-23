@@ -46,23 +46,28 @@ public class UserService {
     }
 
     public User addUser(User user) {
-        if (userRepository.existByEmail(user.getEmail())) {
+        if (userRepository.existsByEmail(user.getEmail())) {
             throw new ServiceException("User already exists");
         }
         return userRepository.save(user);
     }
 
     public User updateUserByEmail(String email, User user) {
-        if (userRepository.existByEmail(email)) {
+        if (!userRepository.existsByEmail(email)) {
             throw new ServiceException("User does not exist.");
         }
-        return userRepository.save(user);
+        User fetchedUser = userRepository.findByEmail(email);
+        fetchedUser.setEmail(user.getEmail());
+        fetchedUser.setName(user.getName());
+        fetchedUser.setAge(user.getAge());
+        fetchedUser.setPassword(user.getPassword());
+        return userRepository.save(fetchedUser);
     }
 
     public String deleteUserByEmail(String email) {
         loanService.deleteLoansForUserByEmail(email);
         User user = userRepository.findByEmail(email);
-        userRepository.deleteById(user.getId());
+        userRepository.delete(user);
         return "User successfully deleted.";
     }
 }

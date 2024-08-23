@@ -2,13 +2,9 @@ package be.ucll.model;
 
 import static be.ucll.util.Validation.*;
 
+import jakarta.persistence.*;
 import org.hibernate.validator.constraints.Range;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -27,6 +23,7 @@ public class User {
     private int age;
     @Email(message = "E-mail must be a valid email format")
     @NotNull(message = "E-mail must be a valid email format")
+    @Column(unique = true)
     private String email;
     @Size(min = 8, message = "Password must be at least 8 characters long.")
     @NotNull(message = "Password must be at least 8 characters long.")

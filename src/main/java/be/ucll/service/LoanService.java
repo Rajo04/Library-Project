@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import be.ucll.model.Loan;
 import be.ucll.model.ServiceException;
 import be.ucll.repository.LoanRepository;
-import be.ucll.repository.UserRepositoryImpl;
 
 @Service
 public class LoanService {
@@ -22,7 +21,7 @@ public class LoanService {
 
     public List<Loan> getLoansByUser(String email, boolean onlyActive) {
         // First checks if the user exists
-        if (!userRepository.existByEmail(email)) {
+        if (!userRepository.existsByEmail(email)) {
             throw new ServiceException("User with that email does not exist");
         }
 

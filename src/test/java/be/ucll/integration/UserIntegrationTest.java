@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 
+import be.ucll.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import be.ucll.repository.DbInitializer;
-import be.ucll.repository.UserRepositoryImpl;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient
@@ -25,7 +25,7 @@ public class UserIntegrationTest {
   private WebTestClient webTestClient;
 
   @Autowired
-  private UserRepositoryImpl userRepository;
+  private UserRepository userRepository;
 
   @Autowired
   private DbInitializer dbInitializer;
@@ -230,7 +230,7 @@ public class UserIntegrationTest {
                 }
                 """);
 
-    assertTrue(userRepository.existByEmail("peter.griffin@ucll.be"));
+    assertTrue(userRepository.existsByEmail("peter.griffin@ucll.be"));
   }
 
   @Test
@@ -267,6 +267,6 @@ public class UserIntegrationTest {
     webTestClient.delete().uri("/users/jane.toe@ucll.be").exchange().expectStatus().isOk()
         .expectBody(String.class)
         .isEqualTo("User successfully deleted.");
-    assertFalse(userRepository.existByEmail("jane.toe@ucll.be"));
+    assertFalse(userRepository.existsByEmail("jane.toe@ucll.be"));
   }
 }

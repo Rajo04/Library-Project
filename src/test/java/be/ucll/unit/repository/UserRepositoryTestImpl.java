@@ -2,13 +2,11 @@ package be.ucll.unit.repository;
 
 import be.ucll.model.User;
 import be.ucll.repository.UserRepository;
-
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.query.FluentQuery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,186 +17,6 @@ public class UserRepositoryTestImpl implements UserRepository {
 
     public List<User> users;
 
-    @Override
-    public void deleteAllByIdInBatch(Iterable<Long> ids) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void deleteAllInBatch() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void deleteAllInBatch(Iterable<User> entities) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public <S extends User> List<S> findAll(Example<S> example) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public <S extends User> List<S> findAll(Example<S> example, Sort sort) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void flush() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public User getById(Long id) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public User getOne(Long id) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public User getReferenceById(Long id) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public <S extends User> List<S> saveAllAndFlush(Iterable<S> entities) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public <S extends User> S saveAndFlush(S entity) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<User> findAll() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<User> findAllById(Iterable<Long> ids) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public <S extends User> List<S> saveAll(Iterable<S> entities) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public long count() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public void delete(User entity) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void deleteAll() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void deleteAll(Iterable<? extends User> entities) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void deleteAllById(Iterable<? extends Long> ids) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void deleteById(Long id) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public boolean existsById(Long id) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public Optional<User> findById(Long id) {
-        // TODO Auto-generated method stub
-        return Optional.empty();
-    }
-
-    @Override
-    public <S extends User> S save(S entity) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<User> findAll(Sort sort) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Page<User> findAll(Pageable pageable) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public <S extends User> long count(Example<S> example) {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public <S extends User> boolean exists(Example<S> example) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public <S extends User> Page<S> findAll(Example<S> example, Pageable pageable) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public <S extends User, R> R findBy(Example<S> example, Function<FetchableFluentQuery<S>, R> queryFunction) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public <S extends User> Optional<S> findOne(Example<S> example) {
-        // TODO Auto-generated method stub
-        return Optional.empty();
-    }
-
     public UserRepositoryTestImpl() {
         users = new ArrayList<>(List.of(
                 new User("John Doe", 56, "john.doe@ucll.be", "john1234"),
@@ -208,8 +26,21 @@ public class UserRepositoryTestImpl implements UserRepository {
     }
 
     @Override
-    public List<User> allUsers() {
+    public List<User> findAll() {
         return users;
+    }
+
+    @Override
+    public void delete(User userToDelete) {
+        String emailOfUserToDelete = userToDelete.getEmail();
+        for (int i = 0; i < users.size(); i++) {
+            User user = users.get(i);
+
+            if (user.getEmail().equals(emailOfUserToDelete)) {
+                users.remove(user);
+                break;
+            }
+        }
     }
 
     @Override
@@ -246,7 +77,7 @@ public class UserRepositoryTestImpl implements UserRepository {
     }
 
     @Override
-    public boolean existByEmail(String email) {
+    public boolean existsByEmail(String email) {
         for (User user : users) {
             if (user.getEmail().equals(email)) {
                 return true;
@@ -266,32 +97,50 @@ public class UserRepositoryTestImpl implements UserRepository {
     }
 
     @Override
-    public User addUser(User user) {
-        users.add(user);
+    public User save(User user){
+        // Save is both "Create new" and "Update if existing"
+        // So: check if exists, if yes, update
+        if(existsByEmail(user.getEmail())){
+            // 👇 These are largely pointless sets, because we already did this in the service layer
+            User existingUser = findByEmail(user.getEmail());
+            existingUser.setEmail(user.getEmail());
+            existingUser.setName(user.getName());
+            existingUser.setAge(user.getAge());
+            existingUser.setPassword(user.getPassword());
+            user = existingUser;
+        } else { // if no, create new
+            users.add(user);
+        }
         return user;
     }
 
-    @Override
-    public User updateUserByEmail(String email, User user) {
-        User fetchedUser = findByEmail(email);
-        fetchedUser.setEmail(user.getEmail());
-        fetchedUser.setName(user.getName());
-        fetchedUser.setAge(user.getAge());
-        fetchedUser.setPassword(user.getPassword());
-        return fetchedUser;
-    }
-
-    @Override
-    public void deleteUserByEmail(String email) {
-        for (int i = 0; i < users.size(); i++) {
-            User user = users.get(i);
-
-            if (user.getEmail().equals(email)) {
-                users.remove(user);
-                break;
-            }
-        }
-    }
+//    @Override
+//    public User addUser(User user) {
+//        users.add(user);
+//        return user;
+//    }
+//
+//    @Override
+//    public User updateUserByEmail(String email, User user) {
+//        User fetchedUser = findByEmail(email);
+//        fetchedUser.setEmail(user.getEmail());
+//        fetchedUser.setName(user.getName());
+//        fetchedUser.setAge(user.getAge());
+//        fetchedUser.setPassword(user.getPassword());
+//        return fetchedUser;
+//    }
+//
+//    @Override
+//    public void deleteUserByEmail(String email) {
+//        for (int i = 0; i < users.size(); i++) {
+//            User user = users.get(i);
+//
+//            if (user.getEmail().equals(email)) {
+//                users.remove(user);
+//                break;
+//            }
+//        }
+//    }
 
     public void resetRepositoryData() {
         users = new ArrayList<>(List.of(
@@ -299,5 +148,144 @@ public class UserRepositoryTestImpl implements UserRepository {
                 new User("Jane Toe", 30, "jane.toe@ucll.be", "jane1234"),
                 new User("Jack Doe", 5, "jack.doe@ucll.be", "jack1234"),
                 new User("Sarah Doe", 4, "sarah.doe@ucll.be", "sarah1234")));
+    }
+
+    // 👇 Methods we're forced to implement because the UserRepository-interface demands it.
+    // 👇 We don't need any of these methods below to make our tests succeed
+
+
+    @Override
+    public void deleteAllById(Iterable<? extends Long> longs) {
+
+    }
+
+    @Override
+    public void deleteAll(Iterable<? extends User> entities) {
+
+    }
+
+    @Override
+    public void deleteAll() {
+
+    }
+
+    @Override
+    public List<User> findAllById(Iterable<Long> longs) {
+        return List.of();
+    }
+
+    @Override
+    public void deleteById(Long aLong) {
+
+    }
+
+    @Override
+    public <S extends User> List<S> saveAll(Iterable<S> entities) {
+        return List.of();
+    }
+
+    @Override
+    public Optional<User> findById(Long aLong) {
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean existsById(Long aLong) {
+        return false;
+    }
+
+    @Override
+    public long count() {
+        return 0;
+    }
+
+    @Override
+    public void flush() {
+
+    }
+
+    @Override
+    public <S extends User> S saveAndFlush(S entity) {
+        return null;
+    }
+
+    @Override
+    public <S extends User> List<S> saveAllAndFlush(Iterable<S> entities) {
+        return List.of();
+    }
+
+    @Override
+    public void deleteAllInBatch(Iterable<User> entities) {
+
+    }
+
+    @Override
+    public void deleteAllByIdInBatch(Iterable<Long> longs) {
+
+    }
+
+    @Override
+    public void deleteAllInBatch() {
+
+    }
+
+    @Override
+    public User getOne(Long aLong) {
+        return null;
+    }
+
+    @Override
+    public User getById(Long aLong) {
+        return null;
+    }
+
+    @Override
+    public User getReferenceById(Long aLong) {
+        return null;
+    }
+
+    @Override
+    public <S extends User> Optional<S> findOne(Example<S> example) {
+        return Optional.empty();
+    }
+
+    @Override
+    public <S extends User> List<S> findAll(Example<S> example) {
+        return List.of();
+    }
+
+    @Override
+    public <S extends User> List<S> findAll(Example<S> example, Sort sort) {
+        return List.of();
+    }
+
+    @Override
+    public <S extends User> Page<S> findAll(Example<S> example, Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public <S extends User> long count(Example<S> example) {
+        return 0;
+    }
+
+    @Override
+    public <S extends User> boolean exists(Example<S> example) {
+        return false;
+    }
+
+    @Override
+    public <S extends User, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
+        return null;
+    }
+
+    @Override
+    public List<User> findAll(Sort sort) {
+        return List.of();
+    }
+
+    @Override
+    public Page<User> findAll(Pageable pageable) {
+        return null;
     }
 }

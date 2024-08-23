@@ -21,7 +21,6 @@ import be.ucll.service.LoanService;
 import be.ucll.service.UserService;
 import be.ucll.repository.LoanRepository;
 import be.ucll.repository.PublicationRepository;
-import be.ucll.repository.UserRepositoryImpl;
 
 public class UserServiceTest {
     private UserService userService;

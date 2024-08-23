@@ -24,5 +24,6 @@ public class DbInitializer {
         for (User user : users) {
             userRepository.save(user);
         }
+        System.out.println("ID: " + userRepository.findByEmail("sarah.doe@ucll.be").getId());
     }
 }
