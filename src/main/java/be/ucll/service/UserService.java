@@ -7,13 +7,11 @@ import org.springframework.stereotype.Service;
 
 import be.ucll.model.ServiceException;
 import be.ucll.model.User;
-import be.ucll.repository.UserRepositoryImpl;
 
 @Service
 public class UserService {
     private UserRepository userRepository;
     private LoanService loanService;
-
 
     public UserService(UserRepository userRepository, LoanService loanService) {
         this.userRepository = userRepository;
@@ -29,10 +27,10 @@ public class UserService {
     }
 
     public List<User> getUsersByAgeRange(int min, int max) {
-        if(min > max) {
+        if (min > max) {
             throw new ServiceException("Minimum age cannot be greater than maximum age.");
         }
-        if(min < 0 || max > 150) {
+        if (min < 0 || max > 150) {
             throw new ServiceException("Invalid age range. Age must be between 0 and 150.");
         }
         return userRepository.findUsersByAgeRange(min, max);
@@ -40,22 +38,22 @@ public class UserService {
 
     public List<User> getUsersByName(String name) {
         List<User> usersWithName = userRepository.usersByName(name);
-        
-        if(usersWithName.size() == 0) {
+
+        if (usersWithName.size() == 0) {
             throw new ServiceException("No users with that name found.");
         }
         return usersWithName;
     }
 
     public User addUser(User user) {
-        if(userRepository.findUserByEmail(user.getEmail()) != null){
+        if (userRepository.findUserByEmail(user.getEmail()) != null) {
             throw new ServiceException("User already exists");
         }
         return userRepository.addUser(user);
     }
 
     public User updateUserByEmail(String email, User user) {
-        if(userRepository.findUserByEmail(email) == null) {
+        if (userRepository.findUserByEmail(email) == null) {
             throw new ServiceException("User does not exist.");
         }
         return userRepository.updateUserByEmail(email, user);

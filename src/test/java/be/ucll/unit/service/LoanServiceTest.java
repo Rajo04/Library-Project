@@ -15,15 +15,15 @@ import be.ucll.model.Loan;
 import be.ucll.model.ServiceException;
 import be.ucll.repository.LoanRepository;
 import be.ucll.repository.PublicationRepository;
-import be.ucll.repository.UserRepositoryImpl;
 import be.ucll.service.LoanService;
+import be.ucll.unit.repository.UserRepositoryTestImpl;
 
 public class LoanServiceTest {
     private LoanService loanService;
 
     @BeforeEach
     void init() {
-        UserRepositoryImpl userRepository = new UserRepositoryImpl();
+        UserRepositoryTestImpl userRepository = new UserRepositoryTestImpl();
         this.loanService = new LoanService(new LoanRepository(userRepository, new PublicationRepository()),
                 userRepository);
     }
